@@ -6,8 +6,12 @@ export const PageLanding = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  color: var(--color-text-in-primary);
-  background: var(--color-primary);
+  color: var(--color-title-in-primary);
+  background: linear-gradient(
+    -45deg,
+    var(--color-primary),
+    var(--color-primary-dark)
+  );
   @media (min-width: 1100px) {
     #landing-content {
       max-width: 1100px;
@@ -26,16 +30,24 @@ export const PageLandingContent = styled.div`
     .hero-image {
       grid-area: hero;
       justify-self: end;
+      width: 100%;
     }
   }
   .hero-image {
-    width: 100%;
+    width: 90%;
   }
 `;
 
 export const LogoContainer = styled.div`
   text-align: center;
   margin-bottom: 3.2rem;
+  h1 {
+    font-family: "Tarantello", fantasy;
+    font-weight: 900;
+    font-size: 3.5rem;
+    line-height: 4.6rem;
+    margin-top: 0.8rem;
+  }
   h2 {
     font-weight: 500;
     font-size: 2.4rem;
@@ -50,9 +62,16 @@ export const LogoContainer = styled.div`
     align-self: center;
     margin: 0;
     text-align: left;
+    h1 {
+      font-family: "Tarantello", fantasy;
+      font-weight: 900;
+      font-size: 7rem;
+      line-height: 4.6rem;
+      margin-top: 0.8rem;
+    }
     h2 {
       text-align: initial;
-      font-size: 3.6rem;
+      font-size: 3.2rem;
     }
     img {
       height: 100%;
@@ -113,6 +132,7 @@ export const TotalConnections = styled.span`
   @media (min-width: 1100px) {
     grid-area: total;
     justify-self: end;
+    margin-top: 25rem;
   }
   img {
     margin-left: 0.8rem;
