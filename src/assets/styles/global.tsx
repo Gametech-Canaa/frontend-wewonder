@@ -5,11 +5,11 @@ export default createGlobalStyle`
   --color-background: #F0F0F7;
   --color-primary-lighter: #9871F5;
   --color-primary-light: #916BEA;
-  --color-primary: #8257E5;
-  --color-primary-dark: #774DD6;
+  --color-primary: #6842C2;
+  --color-primary-dark: #F589CE;
   --color-primary-darker: #6842C2;
-  --color-secundary: #04D361;
-  --color-secundary-dark: #04BF58;
+  --color-secundary: #F589CE;
+  --color-secundary-dark: #F569D4;
   --color-title-in-primary: #FFFFFF;
   --color-text-in-primary: #D4C2FF;
   --color-text-title: #32264D;
