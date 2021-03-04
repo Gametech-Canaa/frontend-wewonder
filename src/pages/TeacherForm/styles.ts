@@ -55,7 +55,11 @@ export const Main = styled.main`
 
 export const Footer = styled.footer`
   padding: 4rem 2.4rem;
-  background: var(--color-box-footer);
+  background: linear-gradient(
+    -45deg,
+    var(--color-primary),
+    var(--color-primary-dark)
+  );
   border-top: 1px solid var(--color-line-in-white);
   margin-top: 6.4rem;
   @media (min-width: 700px) {

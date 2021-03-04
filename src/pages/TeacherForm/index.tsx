@@ -87,7 +87,7 @@ const TeacherForm: React.FC = () => {
             />
             <Input
               name="avatar"
-              label="Avatar"
+              label="Nome de usuário"
               value={avatar}
               onChange={(e) => {
                 setAvatar(e.target.value);
@@ -112,19 +112,21 @@ const TeacherForm: React.FC = () => {
           </fieldset>
 
           <fieldset>
-            <legend>Sobre a aula</legend>
+            <legend>Esportes</legend>
 
             <Select
               name="subject"
-              label="Matéria"
+              label="Atividade"
               options={[
-                { value: "Artes", label: "Artes" },
-                { value: "Matemática", label: "Matemática" },
-                { value: "Biologia", label: "Biologia" },
-                { value: "Inglês", label: "Inglês" },
-                { value: "Português", label: "Português" },
-                { value: "História", label: "História" },
-                { value: "Geografia", label: "Geografia" },
+                { value: "Futebol", label: "Futebol" },
+                { value: "Futsal", label: "Futsal" },
+                { value: "Tênis", label: "Tênis" },
+                { value: "Vôlei", label: "Vôlei" },
+                { value: "Ginástica", label: "Ginástica" },
+                { value: "Academia", label: "Academia" },
+                { value: "Ciclismo", label: "Ciclismo" },
+                { value: "Muay Thai", label: "Muay Thai" },
+                { value: "Natação", label: "Natação" },
               ]}
               value={subject}
               onChange={(e) => {
