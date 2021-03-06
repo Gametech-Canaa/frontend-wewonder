@@ -32,7 +32,7 @@ const Landing: React.FC = () => {
       <PageLandingContent id="landing-content" className="container">
         <LogoContainer>
           {/*<img src={logoImg} alt="COMPATIVIDADE" />*/}
-          <h1>ReplayWoman</h1>
+          <h1>HIGIA</h1>
           <h2>Slogan bonitinho da plataforma.</h2>
         </LogoContainer>
         <img
@@ -47,9 +47,9 @@ const Landing: React.FC = () => {
             Ver Grupos
           </Link>
 
-          <Link to="/give-classes" className="give-classes">
+          <Link to="/login" className="give-classes">
             <img src={giveClassesIcon} alt="Dar aulas" />
-            Criar Grupos
+            Cadastre-se
           </Link>
         </ButtonsContainer>
 
