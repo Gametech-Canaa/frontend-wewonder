@@ -11,9 +11,9 @@ export default createGlobalStyle`
   --color-secundary: #F589CE;
   --color-secundary-dark: #F569D4;
   --color-title-in-primary: #FFFFFF;
-  --color-text-in-primary: #D4C2FF;
+  --color-text-in-primary: #262626;
   --color-text-title: #32264D;
-  --color-text-complement: #9C98A6;
+  --color-text-complement: #000000;
   --color-text-base: #6A6180;
   --color-line-in-white: #E6E6F0;
   --color-input-background: #F8F8FC;

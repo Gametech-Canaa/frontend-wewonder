@@ -1,23 +1,20 @@
 import React, { useState, FormEvent } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 
 import PageHeader from "../../components/PageHeader";
 import Input from "../../components/Input";
-import Textarea from "../../components/Textarea";
 import Select from "../../components/Select";
 
 import warningIcon from "../../assets/images/icons/warning.svg";
 
 import * as Styled from "./styles";
 import api from "../../services/api";
+import { toast } from "react-toastify";
 
 const TeacherForm: React.FC = () => {
-  const history = useHistory();
-  const [name, setName] = useState("");
-  const [avatar, setAvatar] = useState("");
-  const [bio, setBio] = useState("");
-  const [whatsapp, setWhatsapp] = useState("");
+  const { id } = useParams();
 
+  const history = useHistory();
   const [subject, setSubject] = useState("");
   const [cost, setCost] = useState("");
   const [scheduleItems, setScheduleItems] = useState([
@@ -30,23 +27,19 @@ const TeacherForm: React.FC = () => {
 
   function handleCreateClass(e: FormEvent) {
     e.preventDefault();
-
     api
       .post("classes", {
-        name,
-        avatar,
-        whatsapp,
-        bio,
+        id,
         subject,
         cost: Number(cost),
         schedule: scheduleItems,
       })
       .then(() => {
-        alert("Cadastro realizado com sucesso");
-        history.push("/");
+        toast.success("Cadastro realizado com sucesso");
+        history.push("/main-app");
       })
       .catch(() => {
-        alert("Erro no cadastro");
+        toast.error("Erro no cadastro");
       });
   }
 
@@ -68,64 +61,19 @@ const TeacherForm: React.FC = () => {
   return (
     <Styled.PageTeacherForm className="container">
       <PageHeader
-        title="Que incrível que você quer dar aulas."
-        description="O primeiro passo é preencher esse formulário de inscrição"
+        title="Bem vindo à Hígia"
+        description="Preencha o formulário para começar a procurar companheiros de exercício"
       />
 
       <Styled.Main>
         <form onSubmit={handleCreateClass}>
+    
           <fieldset>
-            <legend>Seus dados</legend>
+            <legend>Criar grupo</legend>
 
             <Input
-              name="name"
-              label="Nome completo"
-              value={name}
-              onChange={(e) => {
-                setName(e.target.value);
-              }}
-            />
-            <Input
-              name="avatar"
-              label="Avatar"
-              value={avatar}
-              onChange={(e) => {
-                setAvatar(e.target.value);
-              }}
-            />
-            <Input
-              name="whatsapp"
-              label="Whatsapp"
-              value={whatsapp}
-              onChange={(e) => {
-                setWhatsapp(e.target.value);
-              }}
-            />
-            <Textarea
-              name="bio"
-              label="Biografia"
-              value={bio}
-              onChange={(e) => {
-                setBio(e.target.value);
-              }}
-            />
-          </fieldset>
-
-          <fieldset>
-            <legend>Sobre a aula</legend>
-
-            <Select
               name="subject"
-              label="Matéria"
-              options={[
-                { value: "Artes", label: "Artes" },
-                { value: "Matemática", label: "Matemática" },
-                { value: "Biologia", label: "Biologia" },
-                { value: "Inglês", label: "Inglês" },
-                { value: "Português", label: "Português" },
-                { value: "História", label: "História" },
-                { value: "Geografia", label: "Geografia" },
-              ]}
+              label="Atividade de interesse"
               value={subject}
               onChange={(e) => {
                 setSubject(e.target.value);

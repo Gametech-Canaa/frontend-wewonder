@@ -95,7 +95,6 @@ export const ButtonsContainer = styled.div`
     height: 10.4rem;
     border-radius: 0.8rem;
     font: 700 2rem Archivo;
-
     display: flex;
     align-items: center;
     justify-content: center;
