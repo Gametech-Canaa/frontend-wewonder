@@ -3,7 +3,11 @@ import styled from "styled-components";
 export const Header = styled.header`
   display: flex;
   flex-direction: column;
-  background: var(--color-primary);
+  background: linear-gradient(
+    -45deg,
+    var(--color-primary),
+    var(--color-primary-dark)
+  );
   @media (min-width: 700px) {
     height: 340px;
   }
