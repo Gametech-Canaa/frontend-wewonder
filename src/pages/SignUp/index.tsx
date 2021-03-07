@@ -7,24 +7,21 @@ import Textarea from "../../components/Textarea";
 import Select from "../../components/Select";
 
 import warningIcon from "../../assets/images/icons/warning.svg";
-import {  toast } from 'react-toastify';
-
+import { toast } from "react-toastify";
 
 import * as Styled from "./styles";
 import api from "../../services/api";
 
-interface User{
-   name?: string; 
-   email?:string;
-   password?:string;
-   bio?:string;
-   whatsapp?:string;
-   cost?:string
+interface User {
+  name?: string;
+  email?: string;
+  password?: string;
+  bio?: string;
+  whatsapp?: string;
+  cost?: string;
 }
 
-const LoginPage: React.FC = () => {
-
-
+const SignUp: React.FC = () => {
   const history = useHistory();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -35,35 +32,32 @@ const LoginPage: React.FC = () => {
 
   const [profile, setProfile] = useState("");
 
-
   function handleCreateClass(e: FormEvent) {
     e.preventDefault();
-    if(name && email && password && whatsapp &&  profile){
-    api
-      .post("register", {
-            name,
-            email,
-            password,
-            bio: bio? bio : " ",
-            whatsapp,
-            profile,
-            
-      })
-      .then((response) => {
-        const {id} = response.data;
-        toast.success("Cadastro realizado com sucesso");
-        if(profile === "1"){
+    if (name && email && password && whatsapp && profile) {
+      api
+        .post("register", {
+          name,
+          email,
+          password,
+          bio: bio ? bio : " ",
+          whatsapp,
+          profile,
+        })
+        .then((response) => {
+          const { id } = response.data;
+          toast.success("Cadastro realizado com sucesso");
+          if (profile === "1") {
             history.push(`/give-classes/${id}`);
-        }else{
-          history.push("/");
-        }
-       
-      })
-      .catch(() => {
-        toast.error("Erro no cadastro");
-      });
-    }else{
-        toast.error("Favor preencha todos os dados!");
+          } else {
+            history.push("/");
+          }
+        })
+        .catch(() => {
+          toast.error("Erro no cadastro");
+        });
+    } else {
+      toast.error("Favor preencha todos os dados!");
     }
   }
 
@@ -75,7 +69,7 @@ const LoginPage: React.FC = () => {
       />
 
       <Styled.Main>
-        <form onSubmit={handleCreateClass}  >
+        <form onSubmit={handleCreateClass}>
           <fieldset>
             <legend>Informações de Cadastro</legend>
 
@@ -107,7 +101,7 @@ const LoginPage: React.FC = () => {
               name="password"
               label="Senha"
               value={password}
-              type="password"  
+              type="password"
               onChange={(e) => {
                 setPassword(e.target.value);
               }}
@@ -137,10 +131,8 @@ const LoginPage: React.FC = () => {
                 setProfile(e.target.value);
               }}
             />
-           
-
           </fieldset>
-            
+
           <Styled.Footer>
             <p>
               <img src={warningIcon} alt="Aviso importante" />
@@ -155,4 +147,4 @@ const LoginPage: React.FC = () => {
   );
 };
 
-export default LoginPage;
+export default SignUp;

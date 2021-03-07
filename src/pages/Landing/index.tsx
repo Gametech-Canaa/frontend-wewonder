@@ -1,24 +1,29 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, FormEvent } from "react";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useHistory } from "react-router-dom";
 
 import logoImg from "../../assets/images/logo.svg";
 import landingImg from "../../assets/images/logo-plataforma-1.png";
+import Input from "../../components/Input";
 
-import studyIcon from "../../assets/images/icons/study.svg";
-import giveClassesIcon from "../../assets/images/icons/give-classes.svg";
 import purpleHeartIcon from "../../assets/images/icons/purple-heart.svg";
 
 import {
   PageLanding,
   PageLandingContent,
   LogoContainer,
-  ButtonsContainer,
   TotalConnections,
+  Footer,
 } from "./styles";
 import api from "../../services/api";
 
 const Landing: React.FC = () => {
+  const history = useHistory();
   const [totalConnections, setTotalConnection] = useState(0);
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   useEffect(() => {
     api.get("connections").then((response) => {
@@ -27,31 +32,76 @@ const Landing: React.FC = () => {
     });
   }, [totalConnections]);
 
+  useEffect(() => {
+    if (localStorage.getItem("token") !== "") {
+      history.push("/main-app");
+    }
+  }, []);
+
+  function handleLogin(e: FormEvent) {
+    e.preventDefault();
+    if (email && password) {
+      api
+        .post("authenticate", {
+          email,
+          password,
+        })
+        .then((response) => {
+          toast.success(`Bem vindo, ${response.data.user.name}`);
+          localStorage.setItem("profile", response.data.user.profile);
+          localStorage.setItem("name", response.data.user.name);
+          localStorage.setItem("email", response.data.user.email);
+          localStorage.setItem("token", response.data.token);
+          history.push("/main-app");
+        })
+        .catch(() => {
+          toast.error("Erro no cadastro");
+        });
+    } else {
+      toast.error("Favor informe login e senha!");
+    }
+  }
+
   return (
     <PageLanding>
       <PageLandingContent id="landing-content" className="container">
         <LogoContainer>
-          {/*<img src={logoImg} alt="COMPATIVIDADE" />*/}
-          <h1>HIGIA</h1>
-          <h2>Slogan bonitinho da plataforma.</h2>
+          <img
+            src={landingImg}
+            alt="Plataforma de estudos"
+            className="hero-image"
+          />
         </LogoContainer>
-        <img
-          src={landingImg}
-          alt="Plataforma de estudos"
-          className="hero-image"
-        />
 
-        <ButtonsContainer>
-          <Link to="/study" className="study">
-            <img src={studyIcon} alt="Estudar" />
-            Ver Grupos
-          </Link>
+        <form onSubmit={handleLogin}>
+          <fieldset>
+            <legend>Login</legend>
 
-          <Link to="/login" className="give-classes">
-            <img src={giveClassesIcon} alt="Dar aulas" />
-            Cadastre-se
-          </Link>
-        </ButtonsContainer>
+            <Input
+              name="email"
+              label="Email"
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
+            />
+            <Input
+              name="password"
+              label="Senha"
+              value={password}
+              type="password"
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
+            />
+          </fieldset>
+          <Footer>
+            <button type="submit">Entrar</button>
+            <Link to="/register" className="give-classes">
+              Cadastre-se
+            </Link>
+          </Footer>
+        </form>
 
         <TotalConnections>
           Total de {totalConnections} conexões já realizadas{" "}
