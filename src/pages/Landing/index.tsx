@@ -33,7 +33,7 @@ const Landing: React.FC = () => {
   }, [totalConnections]);
 
   useEffect(() => {
-    if (localStorage.getItem("token") !== "") {
+    if (localStorage.getItem("token") !== null) {
       history.push("/main-app");
     }
   }, []);
