@@ -66,7 +66,7 @@ const TeacherForm: React.FC = (props: GoogleAPI) => {
   return (
     <Styled.PageTeacherForm className="container">
       <MainPageHeader
-        title="Bem vindo à WeWonder"
+        title="WeWonder"
         description="Vamos começar a procurar companheiras de exercício"
       />
       <Styled.Mapa
