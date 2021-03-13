@@ -47,15 +47,17 @@ const Landing: React.FC = () => {
           password,
         })
         .then((response) => {
+          console.log(response);
           toast.success(`Bem vindo, ${response.data.user.name}`);
           localStorage.setItem("profile", response.data.user.profile);
           localStorage.setItem("name", response.data.user.name);
           localStorage.setItem("email", response.data.user.email);
           localStorage.setItem("token", response.data.token);
+          api.defaults.headers.Authorization = `Bearer ${response.data.token}`;
           history.push("/main-app");
         })
         .catch(() => {
-          toast.error("Erro no cadastro");
+          toast.error("Erro no login. Verifique seus dados!");
         });
     } else {
       toast.error("Favor informe login e senha!");

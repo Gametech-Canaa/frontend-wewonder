@@ -11,11 +11,15 @@ import * as Styled from "./styles";
 import api from "../../services/api";
 import { toast } from "react-toastify";
 
-const TeacherForm: React.FC = () => {
-  const { id } = useParams();
+const ClassForm: React.FC = () => {
+
+  const profile = localStorage.getItem("profile");
+  const token = localStorage.getItem("token");
+  api.defaults.headers.Authorization = `Bearer ${token}`;
 
   const history = useHistory();
   const [subject, setSubject] = useState("");
+  const [cep, setCep] = useState("");
   const [cost, setCost] = useState("");
   const [scheduleItems, setScheduleItems] = useState([
     { week_day: 0, from: "", to: "" },
@@ -29,10 +33,10 @@ const TeacherForm: React.FC = () => {
     e.preventDefault();
     api
       .post("classes", {
-        id,
         subject,
         cost: Number(cost),
         schedule: scheduleItems,
+        cep
       })
       .then(() => {
         toast.success("Cadastro realizado com sucesso");
@@ -61,8 +65,8 @@ const TeacherForm: React.FC = () => {
   return (
     <Styled.PageTeacherForm className="container">
       <PageHeader
-        title="Bem vindo à Hígia"
-        description="Preencha o formulário para começar a procurar companheiros de exercício"
+        title="Bem vindo à WeWonder"
+        description="Preencha o formulário para começar a procurar companheiras de exercício"
       />
 
       <Styled.Main>
@@ -79,12 +83,22 @@ const TeacherForm: React.FC = () => {
                 setSubject(e.target.value);
               }}
             />
-            <Input
+
+          { profile == "1"? (<Input
               name="cost"
               label="Custo da sua hora por aula"
               value={cost}
               onChange={(e) => {
                 setCost(e.target.value);
+              }}
+            />):(<div/>)}
+            
+            <Input
+              name="cep"
+              label="CEP de encontro do grupo"
+              value={cep}
+              onChange={(e) => {
+                setCep(e.target.value);
               }}
             />
           </fieldset>
@@ -154,4 +168,4 @@ const TeacherForm: React.FC = () => {
   );
 };
 
-export default TeacherForm;
+export default ClassForm;

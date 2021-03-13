@@ -32,10 +32,10 @@ const MainPageHeader: React.FC<MainPageHeaderProps> = (props) => {
       <Styled.HeaderContent>
         <strong>{props.title}</strong>
         <div>
-          <Link to="/teste"> TESTE</Link>
-          <Link to="/teste"> TESTE</Link>
-          <Link to="/teste"> TESTE</Link>
-          <Link to="/teste"> TESTE</Link>
+          <Link to="/groups">Meus Grupos</Link>
+          <Link to="/teste">TESTE</Link>
+          <Link to="/groups">TESTE</Link>
+          <Link to="/give-classes">Criar Grupo</Link>
         </div>
         {props.children}
       </Styled.HeaderContent>

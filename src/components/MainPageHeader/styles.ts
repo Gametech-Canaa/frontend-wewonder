@@ -118,7 +118,7 @@ export const HeaderContent = styled.div`
     justify-content: center;
     align-items: flex-start;
     strong {
-      max-width: 350px;
+      max-width: 430px;
     }
   }
   strong {
