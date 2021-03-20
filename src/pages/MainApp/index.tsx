@@ -1,12 +1,19 @@
-import React, { useState, FormEvent } from "react";
+import React, { useState, FormEvent, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 
 import MainPageHeader from "../../components/MainPageHeader";
+
+import { AxiosResponse } from "axios";
 
 import * as Styled from "./styles";
 import api from "../../services/api";
 import { toast } from "react-toastify";
 import { GoogleAPI, GoogleApiWrapper } from "google-maps-react";
+
+interface Endereco {
+  class_id: number;
+  cep: string;
+}
 
 const TeacherForm: React.FC = (props: GoogleAPI) => {
   const { id } = useParams();
@@ -22,6 +29,7 @@ const TeacherForm: React.FC = (props: GoogleAPI) => {
   const history = useHistory();
   const [subject, setSubject] = useState("");
   const [cost, setCost] = useState("");
+  const [locais, setLocais] = useState([]);
   const [scheduleItems, setScheduleItems] = useState([
     { week_day: 0, from: "", to: "" },
   ]);
@@ -29,6 +37,35 @@ const TeacherForm: React.FC = (props: GoogleAPI) => {
   function addNewScheduleItem() {
     setScheduleItems([...scheduleItems, { week_day: 0, from: "", to: "" }]);
   }
+
+  useEffect(() => {
+    if (localStorage.getItem("token") === null) {
+      history.push("/");
+    }
+    async function loadClasses() {
+      api
+        .get("addresses")
+        .then((response: AxiosResponse) => {
+          const address = response.data;
+          setLocais(address);
+        })
+        .catch(() => {
+          toast.error("Erro no cadastro");
+        });
+    }
+
+    loadClasses();
+  }, []);
+
+  useEffect(() => {
+    function getGeoLocation() {
+      locais.map((loc: Endereco) => {
+        console.log(loc.cep);
+      });
+    }
+
+    getGeoLocation();
+  }, [locais]);
 
   function handleCreateClass(e: FormEvent) {
     e.preventDefault();
