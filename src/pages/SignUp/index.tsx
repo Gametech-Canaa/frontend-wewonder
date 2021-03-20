@@ -59,7 +59,7 @@ const SignUp: React.FC = () => {
   return (
     <Styled.PageTeacherForm className="container">
       <PageHeader
-        title="Bem vindo à Hígia"
+        title="Bem vindo à WeWonder"
         description="Faça seu cadastro para começar a sua experiência."
       />
 
