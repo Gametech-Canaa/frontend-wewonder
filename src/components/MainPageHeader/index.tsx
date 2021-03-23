@@ -31,6 +31,7 @@ const MainPageHeader: React.FC<MainPageHeaderProps> = (props) => {
       <Styled.HeaderContent>
         <strong>{props.title}</strong>
         <div>
+          <Link to="/main-app">Home</Link>
           <Link to="/groups">Meus Grupos</Link>
           <Link to="/profile">Meu Perfil</Link>
           <Link to="/achivements">Minhas Conquistas</Link>

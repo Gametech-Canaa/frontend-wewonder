@@ -51,6 +51,7 @@ const Landing: React.FC = () => {
           localStorage.setItem("profile", response.data.user.profile);
           localStorage.setItem("name", response.data.user.name);
           localStorage.setItem("email", response.data.user.email);
+          localStorage.setItem("id", response.data.user.id);
           localStorage.setItem("token", response.data.token);
           api.defaults.headers.Authorization = `Bearer ${response.data.token}`;
           history.push("/main-app");

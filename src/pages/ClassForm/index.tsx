@@ -94,8 +94,8 @@ const ClassForm: React.FC = () => {
   return (
     <Styled.PageTeacherForm className="container">
       <PageHeader
-        title="Bem vindo à WeWonder"
-        description="Preencha o formulário para começar a procurar companheiras de exercício"
+        title="WeWonder"
+        description="Crie um grupo para se reunir e praticar exercícios"
       />
 
       <Styled.Main>

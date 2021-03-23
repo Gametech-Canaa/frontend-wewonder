@@ -24,6 +24,12 @@ export interface Criador {
   cost: number;
   whatsapp: string;
 }
+
+export interface Relacao {
+  user_id: number;
+  class_id: number;
+  favorito: boolean;
+}
 interface Address {
   id?: number;
   class_id?: number;
@@ -91,6 +97,39 @@ const TeacherForm: React.FC = () => {
     loadClasses();
   }, [history]);
 
+  function verifyUserInGroup(class_id: Number) {
+    const user = localStorage.getItem("id");
+    async function getUsers() {
+      const response = await api.get(`relations/${class_id}`);
+      if (response.data.lenght === 0) {
+        return false;
+      }
+      const relation = response.data.filter(
+        (rl: Relacao) => String(rl.user_id) === user
+      );
+
+      return relation.length >= 1;
+    }
+    return getUsers();
+  }
+
+  async function handleJoinGroup(class_id: Number) {
+    const valor = await verifyUserInGroup(class_id);
+    if (!Boolean(valor)) {
+      api
+        .post("relations", { class_id })
+        .then((response) => {
+          toast.success("Muito bem! Você se juntou ao grupo.");
+        })
+        .catch(() => {
+          toast.error("Favor, tente novamente mais tarde!");
+        });
+    } else {
+      console.log(valor);
+      toast.warn("Parece que você já participa do grupo, Veja em Meus Grupos");
+    }
+  }
+
   function buscarGrupos() {
     return (
       <MapContainer
@@ -135,7 +174,11 @@ const TeacherForm: React.FC = () => {
                           </p>
                         ) : null}
 
-                        <a href={`https://wa.me/${criador.whatsapp}`}>
+                        <a
+                          onClick={() => {
+                            handleJoinGroup(selectedGroup.id);
+                          }}
+                        >
                           <img src={whatsappIcon} alt="whatsapp icon" />
                           Participar
                         </a>

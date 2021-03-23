@@ -97,7 +97,7 @@ export const HeaderContent = styled.div`
       padding: 0.2rem 3rem;
       a {
         color: var(--color-background);
-        font: 500 2rem Archivo;
+        font: 500 1.5rem Archivo;
         text-decoration: none;
         padding: 0.5rem;
         transition: opacity 0.3s;
@@ -118,7 +118,7 @@ export const HeaderContent = styled.div`
     justify-content: center;
     align-items: flex-start;
     strong {
-      max-width: 430px;
+      max-width: 450px;
     }
   }
   strong {

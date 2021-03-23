@@ -18,6 +18,8 @@ function Routes() {
       <Route path="/register" component={SignUp} />
       <Route path="/main-app" component={MainApp} />
 
+      <Route path="/groups" component={TeacherList} />
+
       <Route path="/profile" component={MainApp} />
       <Route path="/achivements" component={SignUp} />
     </BrowserRouter>
