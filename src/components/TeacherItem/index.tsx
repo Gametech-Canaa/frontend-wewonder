@@ -14,36 +14,46 @@ export interface Teacher {
   subject: string;
   whatsapp: string;
 }
-interface TeacherItemProps {
-  teacher: Teacher;
+
+export interface Grupo {
+  bio: string;
+  id: number;
+  cost: number;
+  subject: string;
 }
 
-const TeacherItem: React.FC<TeacherItemProps> = ({ teacher }) => {
-  function createNewConnection() {
-    api.post("connections", { user_id: teacher.id });
-  }
+export interface Criador {
+  name: string;
+  profile: number;
+  cost: number;
+  whatsapp: string;
+}
+interface ItemProps {
+  grupo: Grupo;
+  criador: Criador;
+}
+
+const TeacherItem: React.FC<ItemProps> = ({ grupo, criador }) => {
   return (
     <Article>
       <header>
-        <img src={teacher.avatar} alt={teacher.name} />
         <div>
-          <strong>{teacher.name}</strong>
-          <span>{teacher.subject}</span>
+          <strong>{criador.name}</strong>
+          <strong>{grupo.subject}</strong>
         </div>
       </header>
 
-      <p>{teacher.bio}</p>
+      <p>{grupo.bio}</p>
 
       <footer>
-        <p>
-          Preço/hora
-          <strong>R$ {teacher.cost}</strong>
-        </p>
-        <a
-          onClick={createNewConnection}
-          href={`https://wa.me/${teacher.whatsapp}`}
-          target="_blank"
-        >
+        {criador.profile === 1 ? (
+          <p>
+            Preço/hora
+            <strong>R$ {grupo.cost}</strong>
+          </p>
+        ) : null}
+
+        <a href={`https://wa.me/${criador.whatsapp}`} target="_blank">
           <img src={whatsappIcon} alt="whatsapp icon" />
           Entrar em contato.
         </a>

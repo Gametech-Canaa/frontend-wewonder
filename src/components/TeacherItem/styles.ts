@@ -1,8 +1,9 @@
 import styled from "styled-components";
 
 export const Article = styled.article`
+  z-index: 10;
   background: var(--color-box-base);
-  border: 1px soliod var(--color-line-in-white);
+  border: 1px solid var(--color-line-in-white);
   border-radius: 0.8rem;
   margin-top: 2.4rem;
   overflow: hidden;

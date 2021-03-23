@@ -12,10 +12,14 @@ function Routes() {
     <BrowserRouter>
       <Route path="/" exact component={Landing} />
       <Route path="/study" component={TeacherList} />
+
       <Route path="/give-classes" component={ClassForm} />
-      <Route path="/give-classes/:id" component={ClassForm} />
+
       <Route path="/register" component={SignUp} />
       <Route path="/main-app" component={MainApp} />
+
+      <Route path="/profile" component={MainApp} />
+      <Route path="/achivements" component={SignUp} />
     </BrowserRouter>
   );
 }

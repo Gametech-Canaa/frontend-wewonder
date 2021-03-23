@@ -1,103 +1,153 @@
-import React, { useState, FormEvent, useEffect } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 
 import MainPageHeader from "../../components/MainPageHeader";
 
 import { AxiosResponse } from "axios";
+import { Article } from "../../components/TeacherItem/styles";
+import whatsappIcon from "../../assets/images/icons/whatsapp.svg";
 
 import * as Styled from "./styles";
 import api from "../../services/api";
 import { toast } from "react-toastify";
-import { GoogleAPI, GoogleApiWrapper } from "google-maps-react";
-
-interface Endereco {
-  class_id: number;
-  cep: string;
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+export interface Grupo {
+  bio: string;
+  id: number;
+  cost: number;
+  subject: string;
 }
 
-const TeacherForm: React.FC = (props: GoogleAPI) => {
-  const { id } = useParams();
+export interface Criador {
+  name: string;
+  profile: number;
+  cost: number;
+  whatsapp: string;
+}
+interface Address {
+  id?: number;
+  class_id?: number;
+  cep?: string;
+  latitude: number;
+  longitude: number;
+}
+const TeacherForm: React.FC = () => {
+  let enderecos: Address[];
+  enderecos = [];
 
-  const containerStyle = {
-    position: "relative",
-    width: "100%",
-    height: "100%",
-    paddingLeft: "10%",
-    paddingRight: "10%",
+  let grupo: Grupo;
+  grupo = {
+    bio: "",
+    id: 0,
+    cost: 0,
+    subject: "",
+  };
+
+  let creator: Criador;
+  creator = {
+    name: "",
+    profile: 0,
+    cost: 0,
+    whatsapp: "",
   };
 
   const history = useHistory();
-  const [subject, setSubject] = useState("");
-  const [cost, setCost] = useState("");
-  const [locais, setLocais] = useState([]);
-  const [scheduleItems, setScheduleItems] = useState([
-    { week_day: 0, from: "", to: "" },
-  ]);
 
-  function addNewScheduleItem() {
-    setScheduleItems([...scheduleItems, { week_day: 0, from: "", to: "" }]);
+  const [locais, setLocais] = useState(enderecos);
+  const [selectedGroup, setSelectedGroup] = useState(grupo);
+  const [criador, setCriador] = useState(creator);
+
+  function teste(gp: Address) {
+    api
+      .get(`classes/${gp.class_id}`)
+      .then((response: AxiosResponse) => {
+        setSelectedGroup(response.data[0]);
+        setCriador(response.data[1]);
+      })
+      .catch(() => {
+        toast.error("Erro ao buscar grupo");
+      });
   }
 
   useEffect(() => {
-    if (localStorage.getItem("token") === null) {
+    const token = localStorage.getItem("token");
+    if (token === null) {
       history.push("/");
+    } else {
+      api.defaults.headers.Authorization = `Bearer ${token}`;
     }
     async function loadClasses() {
-      api
+      await api
         .get("addresses")
         .then((response: AxiosResponse) => {
-          const address = response.data;
+          const address: Address[] = response.data;
           setLocais(address);
         })
         .catch(() => {
-          toast.error("Erro no cadastro");
+          toast.error("Erro ao carregar grupos");
         });
     }
 
     loadClasses();
-  }, []);
+  }, [history]);
 
-  useEffect(() => {
-    function getGeoLocation() {
-      locais.map((loc: Endereco) => {
-        console.log(loc.cep);
-      });
-    }
+  function buscarGrupos() {
+    return (
+      <MapContainer
+        center={[-16.6799, -49.255]}
+        zoom={10}
+        scrollWheelZoom={false}
+        style={{ height: "100vh" }}
+      >
+        <TileLayer
+          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
 
-    getGeoLocation();
-  }, [locais]);
+        {locais.length > 0
+          ? locais.map((gp: Address, index) => (
+              <Marker
+                key={index}
+                position={[gp.latitude, gp.longitude]}
+                eventHandlers={{
+                  click: () => {
+                    teste(gp);
+                  },
+                }}
+              >
+                <Popup>
+                  {selectedGroup !== null ? (
+                    <Article>
+                      <header>
+                        <div>
+                          <strong>{selectedGroup.subject}</strong>
+                          <span>{criador.name}</span>
+                        </div>
+                      </header>
 
-  function handleCreateClass(e: FormEvent) {
-    e.preventDefault();
-    api
-      .post("classes", {
-        id,
-        subject,
-        cost: Number(cost),
-        schedule: scheduleItems,
-      })
-      .then(() => {
-        toast.success("Cadastro realizado com sucesso");
-        history.push("/main-app");
-      })
-      .catch(() => {
-        toast.error("Erro no cadastro");
-      });
-  }
+                      <p>{selectedGroup.bio}</p>
 
-  function setScheduleItemValue(
-    position: number,
-    field: string,
-    value: string
-  ) {
-    const updateScheduleItems = scheduleItems.map((scheduleItem, index) => {
-      if (index === position) {
-        return { ...scheduleItem, [field]: value };
-      }
+                      <footer>
+                        {String(criador.profile) === "1" ? (
+                          <p>
+                            Preço/hora
+                            <strong>R$ {selectedGroup.cost}</strong>
+                          </p>
+                        ) : null}
 
-      return scheduleItem;
-    });
-    setScheduleItems(updateScheduleItems);
+                        <a href={`https://wa.me/${criador.whatsapp}`}>
+                          <img src={whatsappIcon} alt="whatsapp icon" />
+                          Entrar em contato.
+                        </a>
+                      </footer>
+                    </Article>
+                  ) : null}
+                </Popup>
+              </Marker>
+            ))
+          : null}
+      </MapContainer>
+    );
   }
 
   return (
@@ -106,18 +156,10 @@ const TeacherForm: React.FC = (props: GoogleAPI) => {
         title="WeWonder"
         description="Vamos começar a procurar companheiras de exercício"
       />
-      <Styled.Mapa
-        containerStyle={containerStyle}
-        google={props.google}
-        initialCenter={{
-          lat: -16.6799,
-          lng: -49.255,
-        }}
-      ></Styled.Mapa>
+
+      {locais.length > 0 ? buscarGrupos() : <h1>Carregando...</h1>}
     </Styled.PageTeacherForm>
   );
 };
 
-export default GoogleApiWrapper({
-  apiKey: "AIzaSyBa3MKcJDhIoNg3fzAqE-qvw_0g49wKMik",
-})(TeacherForm);
+export default TeacherForm;

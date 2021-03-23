@@ -1,30 +1,30 @@
-import React, { useState, FormEvent } from "react";
-
-import PageHeader from "../../components/PageHeader";
-import TeacherItem, { Teacher } from "../../components/TeacherItem";
-import Input from "../../components/Input";
-import Select from "../../components/Select";
+import React from "react";
+// import React, { useState, FormEvent } from "react";
+// import PageHeader from "../../components/PageHeader";
+// import TeacherItem, { Teacher } from "../../components/TeacherItem";
+// import Input from "../../components/Input";
+// import Select from "../../components/Select";
 
 import * as Styled from "./styles";
-import api from "../../services/api";
+// import api from "../../services/api";
 
 const TeacherList: React.FC = () => {
-  const [subject, setSubject] = useState("");
-  const [week_day, setWeekDay] = useState("");
-  const [time, setTime] = useState("");
+  // const [subject, setSubject] = useState("");
+  // const [week_day, setWeekDay] = useState("");
+  // const [time, setTime] = useState("");
 
-  const [teachers, setTeachers] = useState([]);
-  async function searchTeachers(e: FormEvent) {
-    e.preventDefault();
-    const response = await api.get("classes", {
-      params: { subject, week_day, time },
-    });
-    setTeachers(response.data);
-  }
+  // const [teachers, setTeachers] = useState([]);
+  // async function searchTeachers(e: FormEvent) {
+  //   e.preventDefault();
+  //   const response = await api.get("classes", {
+  //     params: { subject, week_day, time },
+  //   });
+  //   setTeachers(response.data);
+  // }
 
   return (
     <Styled.PageTeacherList className="container">
-      <PageHeader title="Estes são os proffys disponíveis.">
+      {/* <PageHeader title="Estes são os proffys disponíveis.">
         <form id="search-teachers" onSubmit={searchTeachers}>
           <Select
             value={subject}
@@ -78,7 +78,7 @@ const TeacherList: React.FC = () => {
         {teachers.map((teacher: Teacher) => {
           return <TeacherItem key={teacher.id} teacher={teacher} />;
         })}
-      </Styled.Main>
+      </Styled.Main> */}
     </Styled.PageTeacherList>
   );
 };

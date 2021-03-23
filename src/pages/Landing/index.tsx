@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
 
-import logoImg from "../../assets/images/logo.svg";
+// import logoImg from "../../assets/images/logo.svg";
 import landingImg from "../../assets/images/logo-plataforma-1.png";
 import Input from "../../components/Input";
 
@@ -36,7 +36,7 @@ const Landing: React.FC = () => {
     if (localStorage.getItem("token") !== null) {
       history.push("/main-app");
     }
-  }, []);
+  }, [history]);
 
   function handleLogin(e: FormEvent) {
     e.preventDefault();
@@ -47,7 +47,6 @@ const Landing: React.FC = () => {
           password,
         })
         .then((response) => {
-          console.log(response);
           toast.success(`Bem vindo, ${response.data.user.name}`);
           localStorage.setItem("profile", response.data.user.profile);
           localStorage.setItem("name", response.data.user.name);

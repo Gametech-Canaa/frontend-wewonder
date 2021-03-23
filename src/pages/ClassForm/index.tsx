@@ -1,18 +1,19 @@
-import React, { useState, FormEvent } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import React, { useState, FormEvent, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 
 import PageHeader from "../../components/PageHeader";
 import Input from "../../components/Input";
 import Select from "../../components/Select";
+import Textarea from "../../components/Textarea";
 
 import warningIcon from "../../assets/images/icons/warning.svg";
 
 import * as Styled from "./styles";
+import axios from "axios";
 import api from "../../services/api";
 import { toast } from "react-toastify";
 
 const ClassForm: React.FC = () => {
-
   const profile = localStorage.getItem("profile");
   const token = localStorage.getItem("token");
   api.defaults.headers.Authorization = `Bearer ${token}`;
@@ -20,6 +21,10 @@ const ClassForm: React.FC = () => {
   const history = useHistory();
   const [subject, setSubject] = useState("");
   const [cep, setCep] = useState("");
+  const [limite, setLimite] = useState("");
+  const [bio, setBio] = useState("");
+  const [latitude, setLatitude] = useState();
+  const [longitude, setLongitude] = useState();
   const [cost, setCost] = useState("");
   const [scheduleItems, setScheduleItems] = useState([
     { week_day: 0, from: "", to: "" },
@@ -29,6 +34,26 @@ const ClassForm: React.FC = () => {
     setScheduleItems([...scheduleItems, { week_day: 0, from: "", to: "" }]);
   }
 
+  useEffect(() => {
+    function getGeoLocation() {
+      if (String(cep).length === 8) {
+        const url = axios.create({
+          baseURL: `https://maps.googleapis.com/maps/api/`,
+        });
+
+        url
+          .get(
+            `geocode/json?address=${cep}&key=AIzaSyCZKFKqajK5lnh1ykTr5rPxnpRgR66POQg`
+          )
+          .then((response) => {
+            setLatitude(response.data.results[0].geometry.location.lat);
+            setLongitude(response.data.results[0].geometry.location.lng);
+          });
+      }
+    }
+    getGeoLocation();
+  }, [cep]);
+
   function handleCreateClass(e: FormEvent) {
     e.preventDefault();
     api
@@ -36,7 +61,11 @@ const ClassForm: React.FC = () => {
         subject,
         cost: Number(cost),
         schedule: scheduleItems,
-        cep
+        cep,
+        latitude,
+        longitude,
+        limite,
+        bio,
       })
       .then(() => {
         toast.success("Cadastro realizado com sucesso");
@@ -71,7 +100,6 @@ const ClassForm: React.FC = () => {
 
       <Styled.Main>
         <form onSubmit={handleCreateClass}>
-    
           <fieldset>
             <legend>Criar grupo</legend>
 
@@ -84,21 +112,41 @@ const ClassForm: React.FC = () => {
               }}
             />
 
-          { profile == "1"? (<Input
-              name="cost"
-              label="Custo da sua hora por aula"
-              value={cost}
-              onChange={(e) => {
-                setCost(e.target.value);
-              }}
-            />):(<div/>)}
-            
+            {profile === "1" ? (
+              <Input
+                name="cost"
+                label="Custo da sua hora por aula"
+                value={cost}
+                onChange={(e) => {
+                  setCost(e.target.value);
+                }}
+              />
+            ) : (
+              <div />
+            )}
+
             <Input
               name="cep"
               label="CEP de encontro do grupo"
               value={cep}
               onChange={(e) => {
                 setCep(e.target.value);
+              }}
+            />
+            <Input
+              name="limite"
+              label="Limite de pessoas"
+              value={limite}
+              onChange={(e) => {
+                setLimite(e.target.value);
+              }}
+            />
+            <Textarea
+              name="bio"
+              label="Descrição"
+              value={bio}
+              onChange={(e) => {
+                setBio(e.target.value);
               }}
             />
           </fieldset>
