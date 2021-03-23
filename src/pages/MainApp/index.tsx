@@ -5,12 +5,12 @@ import MainPageHeader from "../../components/MainPageHeader";
 
 import { AxiosResponse } from "axios";
 import { Article } from "../../components/TeacherItem/styles";
-import whatsappIcon from "../../assets/images/icons/whatsapp.svg";
+import whatsappIcon from "../../assets/images/icons/rocket.svg";
 
 import * as Styled from "./styles";
 import api from "../../services/api";
 import { toast } from "react-toastify";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { MapContainer, TileLayer, Marker } from "react-leaflet";
 export interface Grupo {
   bio: string;
   id: number;
@@ -115,7 +115,7 @@ const TeacherForm: React.FC = () => {
                   },
                 }}
               >
-                <Popup>
+                <Styled.NewPopup>
                   {selectedGroup !== null ? (
                     <Article>
                       <header>
@@ -137,12 +137,12 @@ const TeacherForm: React.FC = () => {
 
                         <a href={`https://wa.me/${criador.whatsapp}`}>
                           <img src={whatsappIcon} alt="whatsapp icon" />
-                          Entrar em contato.
+                          Participar
                         </a>
                       </footer>
                     </Article>
                   ) : null}
-                </Popup>
+                </Styled.NewPopup>
               </Marker>
             ))
           : null}

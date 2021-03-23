@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Map } from "google-maps-react";
+import { Popup } from "react-leaflet";
 
 export const PageTeacherForm = styled.div`
   width: 100vw !important;
@@ -7,6 +8,10 @@ export const PageTeacherForm = styled.div`
   @media (min-width: 700px) {
     max-width: 100vw !important;
   }
+`;
+
+export const NewPopup = styled(Popup)`
+  width: 50rem;
 `;
 
 export const Main = styled.main`
