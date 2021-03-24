@@ -1,52 +1,55 @@
 import styled from "styled-components";
-
-export const Article = styled.article`
-  background: var(--color-box-base);
-  border: 1px soliod var(--color-line-in-white);
+interface ProfileProps {
+  profile: boolean;
+}
+export const Article = styled.article<ProfileProps>`
+  background: ${(props) => (props.profile ? "rgba( 75,0,130,0.2)" : "#fff")};
+  border: 1px solid var(--color-line-in-white);
   border-radius: 0.8rem;
-  margin-top: 2.4rem;
+  width: 46rem;
+  margin-top: 2rem;
   overflow: hidden;
   > p {
     padding: 0 2rem;
     font-size: 1.6rem;
-    line-height: 2.8rem;
+    line-height: 2rem;
     @media (min-width: 700px) {
       padding: 0 3.2rem;
     }
   }
   header {
-    padding: 3.2rem 2rem;
+    padding: 2rem 2rem;
     display: flex;
     align-items: center;
     @media (min-width: 700px) {
-      padding: 3.2rem;
+      padding: 2rem;
     }
     img {
-      width: 8rem;
-      height: 8rem;
+      width: 5rem;
+      height: 5rem;
       border-radius: 50%;
     }
     div {
-      margin-left: 2.4rem;
+      margin-left: 1rem;
       strong {
         font: 700 2.4rem Archivo;
         display: block;
         color: var(--color-text-title);
       }
       span {
-        font-size: 1.6rem;
+        font-size: 1.2rem;
         display: block;
       }
     }
   }
   footer {
     padding: 3.2rem 2rem;
-    background: var(--color-box-footer);
+    background: ${(props) => (props.profile ? "rgba( 75,0,130,0.2)" : "#fff")};
     border-top: 1px solid var(--color-line-in-white);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    @media (min-width: 700px) {
+    @media (min-width: 800px) {
       padding: 3.2rem;
     }
     strong {
@@ -55,11 +58,11 @@ export const Article = styled.article`
       display: block;
       @media (min-width: 700px) {
         display: initial;
-        margin-left: 1.6rem;
+        margin-left: 1rem;
       }
     }
     a {
-      width: 20rem;
+      width: ${(props) => (props.profile ? "20rem" : "100rem")};
       height: 5.6rem;
       background: var(--color-secundary);
       color: var(--color-button-text);
@@ -73,10 +76,12 @@ export const Article = styled.article`
       justify-content: space-evenly;
       transition: 0.2s;
       @media (min-width: 700px) {
-        width: 24.5rem;
+        width: ${(props) => (props.profile ? "24.5rem" : "100rem")};
         font-size: 1.6rem;
         justify-content: center;
         img {
+          color: #fff;
+          font-size: 5rem;
           margin-right: 1.6rem;
         }
       }

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
 
-import logoImg from "../../assets/images/logo.svg";
+// import logoImg from "../../assets/images/logo.svg";
 import landingImg from "../../assets/images/logo-plataforma-1.png";
 import Input from "../../components/Input";
 
@@ -36,7 +36,7 @@ const Landing: React.FC = () => {
     if (localStorage.getItem("token") !== null) {
       history.push("/main-app");
     }
-  }, []);
+  }, [history]);
 
   function handleLogin(e: FormEvent) {
     e.preventDefault();
@@ -51,11 +51,13 @@ const Landing: React.FC = () => {
           localStorage.setItem("profile", response.data.user.profile);
           localStorage.setItem("name", response.data.user.name);
           localStorage.setItem("email", response.data.user.email);
+          localStorage.setItem("id", response.data.user.id);
           localStorage.setItem("token", response.data.token);
+          api.defaults.headers.Authorization = `Bearer ${response.data.token}`;
           history.push("/main-app");
         })
         .catch(() => {
-          toast.error("Erro no cadastro");
+          toast.error("Erro no login. Verifique seus dados!");
         });
     } else {
       toast.error("Favor informe login e senha!");
