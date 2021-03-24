@@ -46,6 +46,8 @@ export const TopBarContainer = styled.div`
     max-width: 1100px;
   }
   a {
+    color: #fff;
+    text-decoration: none;
     height: 3.2rem;
     transition: opacity 0.2s;
   }

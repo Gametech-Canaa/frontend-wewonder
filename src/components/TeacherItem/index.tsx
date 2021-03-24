@@ -35,7 +35,7 @@ interface ItemProps {
 
 const TeacherItem: React.FC<ItemProps> = ({ grupo, criador }) => {
   return (
-    <Article>
+    <Article profile={false}>
       <header>
         <div>
           <strong>{criador.name}</strong>

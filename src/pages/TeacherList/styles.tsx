@@ -1,5 +1,9 @@
 import styled from "styled-components";
 
+interface ProfileProps {
+  profile: boolean;
+}
+
 export const PageTeacherList = styled.div`
   width: 100vw !important;
   height: 100vh;
@@ -71,13 +75,14 @@ export const ButtonsContainer = styled.div`
   }
 `;
 
-export const Article = styled.article`
-  background: var(--color-box-base);
+export const Article = styled.article<ProfileProps>`
+  background: ${(props) => (props.profile ? "rgba( 75,0,130,0.3)" : "#fff")};
   border: 1px soliod var(--color-line-in-white);
   border-radius: 0.8rem;
   margin-top: 2.4rem;
   overflow: hidden;
   > p {
+    color: ${(props) => (props.profile ? "#f6f6f6" : "#999")};
     padding: 0 2rem;
     font-size: 1.6rem;
     line-height: 2.8rem;
@@ -92,7 +97,8 @@ export const Article = styled.article`
     @media (min-width: 700px) {
       padding: 3.2rem;
     }
-    img {
+    #id {
+      color: ${(props) => (props.profile ? "#f6f6f6" : "#333")};
       width: 8rem;
       height: 8rem;
       border-radius: 50%;
@@ -102,26 +108,29 @@ export const Article = styled.article`
       strong {
         font: 700 2.4rem Archivo;
         display: block;
-        color: var(--color-text-title);
+        color: ${(props) => (props.profile ? "#f6f6f6" : "#333")};
       }
       span {
         font-size: 1.6rem;
         display: block;
+        color: ${(props) => (props.profile ? "#f6f6f6" : "#666")};
       }
     }
   }
   footer {
     padding: 3.2rem 2rem;
-    background: var(--color-box-footer);
+    background: ${(props) => (props.profile ? "rgba( 75,0,130,0.2)" : "#fff")};
     border-top: 1px solid var(--color-line-in-white);
     display: flex;
     align-items: center;
     justify-content: space-between;
+    color: ${(props) => (props.profile ? "#f6f6f6" : "#666")};
+
     @media (min-width: 700px) {
       padding: 3.2rem;
     }
     strong {
-      color: var(--color-primary);
+      color: #f6f6f6;
       font-size: 1.6rem;
       display: block;
       @media (min-width: 700px) {
@@ -130,7 +139,7 @@ export const Article = styled.article`
       }
     }
     a {
-      width: 20rem;
+      width: ${(props) => (props.profile ? "20rem" : "150rem")};
       height: 5.6rem;
       background: var(--color-secundary);
       color: var(--color-button-text);
@@ -144,10 +153,11 @@ export const Article = styled.article`
       justify-content: space-evenly;
       transition: 0.2s;
       @media (min-width: 700px) {
-        width: 24.5rem;
+        width: ${(props) => (props.profile ? "24.5rem" : "100rem")};
         font-size: 1.6rem;
         justify-content: center;
-        img {
+        svg {
+          font-size: 3rem;
           margin-right: 1.6rem;
         }
       }

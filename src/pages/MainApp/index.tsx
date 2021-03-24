@@ -6,11 +6,13 @@ import MainPageHeader from "../../components/MainPageHeader";
 import { AxiosResponse } from "axios";
 import { Article } from "../../components/TeacherItem/styles";
 import whatsappIcon from "../../assets/images/icons/rocket.svg";
+import { IoIosAddCircle } from "react-icons/io";
 
 import * as Styled from "./styles";
 import api from "../../services/api";
 import { toast } from "react-toastify";
 import { MapContainer, TileLayer, Marker } from "react-leaflet";
+import { LatLng } from "leaflet";
 export interface Grupo {
   bio: string;
   id: number;
@@ -57,11 +59,14 @@ const TeacherForm: React.FC = () => {
     whatsapp: "",
   };
 
+  let locale: LatLng;
+  locale = new LatLng(-16.6799, -49.255);
   const history = useHistory();
 
   const [locais, setLocais] = useState(enderecos);
   const [selectedGroup, setSelectedGroup] = useState(grupo);
   const [criador, setCriador] = useState(creator);
+  const [initialLocale, setInitialLocale] = useState(locale);
 
   function teste(gp: Address) {
     api
@@ -83,6 +88,11 @@ const TeacherForm: React.FC = () => {
       api.defaults.headers.Authorization = `Bearer ${token}`;
     }
     async function loadClasses() {
+      navigator.geolocation.getCurrentPosition(function (position) {
+        setInitialLocale(
+          new LatLng(position.coords.latitude, position.coords.longitude)
+        );
+      });
       await api
         .get("addresses")
         .then((response: AxiosResponse) => {
@@ -125,7 +135,6 @@ const TeacherForm: React.FC = () => {
           toast.error("Favor, tente novamente mais tarde!");
         });
     } else {
-      console.log(valor);
       toast.warn("Parece que você já participa do grupo, Veja em Meus Grupos");
     }
   }
@@ -133,7 +142,7 @@ const TeacherForm: React.FC = () => {
   function buscarGrupos() {
     return (
       <MapContainer
-        center={[-16.6799, -49.255]}
+        center={initialLocale}
         zoom={10}
         scrollWheelZoom={false}
         style={{ height: "100vh" }}
@@ -156,7 +165,9 @@ const TeacherForm: React.FC = () => {
               >
                 <Styled.NewPopup>
                   {selectedGroup !== null ? (
-                    <Article>
+                    <Article
+                      profile={String(criador.profile) === "1" ? true : false}
+                    >
                       <header>
                         <div>
                           <strong>{selectedGroup.subject}</strong>

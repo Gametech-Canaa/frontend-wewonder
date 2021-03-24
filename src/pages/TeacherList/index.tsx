@@ -3,6 +3,8 @@ import MainPageHeader from "../../components/MainPageHeader";
 import { useHistory } from "react-router-dom";
 import whatsappIcon from "../../assets/images/icons/rocket.svg";
 import { FaRegHeart, FaHeart, FaTrashAlt } from "react-icons/fa";
+import { IoIosPeople } from "react-icons/io";
+import { AiOutlineFileSearch } from "react-icons/ai";
 import { toast } from "react-toastify";
 
 import * as Styled from "./styles";
@@ -93,12 +95,12 @@ const TeacherList: React.FC = () => {
         ) : (
           groups.map((group) => {
             return (
-              <Styled.Article key={group.id}>
+              <Styled.Article
+                key={group.id}
+                profile={group.profile === "1" ? true : false}
+              >
                 <header>
-                  <img
-                    src="https://s3.amazonaws.com/appforest_uf/f1485665415623x323958275606855740/AA_icon.png"
-                    alt={group.name}
-                  />
+                  <IoIosPeople id="id" />
                   <div>
                     <strong>{group.subject}</strong>
                     <span> {group.name} </span>
@@ -138,7 +140,8 @@ const TeacherList: React.FC = () => {
                   ) : null}
 
                   <a onClick={() => {}}>
-                    <img src={whatsappIcon} alt="whatsapp icon" />
+                    <AiOutlineFileSearch />
+                    {/* <img src={whatsappIcon} alt="whatsapp icon" /> */}
                     Ver detalhes
                   </a>
                 </footer>

@@ -1,7 +1,9 @@
 import styled from "styled-components";
-
-export const Article = styled.article`
-  background: var(--color-box-base);
+interface ProfileProps {
+  profile: boolean;
+}
+export const Article = styled.article<ProfileProps>`
+  background: ${(props) => (props.profile ? "rgba( 75,0,130,0.2)" : "#fff")};
   border: 1px solid var(--color-line-in-white);
   border-radius: 0.8rem;
   width: 46rem;
@@ -42,7 +44,7 @@ export const Article = styled.article`
   }
   footer {
     padding: 3.2rem 2rem;
-    background: var(--color-box-footer);
+    background: ${(props) => (props.profile ? "rgba( 75,0,130,0.2)" : "#fff")};
     border-top: 1px solid var(--color-line-in-white);
     display: flex;
     align-items: center;
@@ -60,7 +62,7 @@ export const Article = styled.article`
       }
     }
     a {
-      width: 20rem;
+      width: ${(props) => (props.profile ? "20rem" : "100rem")};
       height: 5.6rem;
       background: var(--color-secundary);
       color: var(--color-button-text);
@@ -74,10 +76,12 @@ export const Article = styled.article`
       justify-content: space-evenly;
       transition: 0.2s;
       @media (min-width: 700px) {
-        width: 24.5rem;
+        width: ${(props) => (props.profile ? "24.5rem" : "100rem")};
         font-size: 1.6rem;
         justify-content: center;
         img {
+          color: #fff;
+          font-size: 5rem;
           margin-right: 1.6rem;
         }
       }
