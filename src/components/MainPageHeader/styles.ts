@@ -41,11 +41,13 @@ export const TopBarContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   color: var(--color-text-in-primary);
-  padding: 1.6rem 0;
+  padding: 0.5rem 0;
   @media (min-width: 700px) {
     max-width: 1100px;
   }
   a {
+    color: #fff;
+    text-decoration: none;
     height: 3.2rem;
     transition: opacity 0.2s;
   }
@@ -61,7 +63,7 @@ export const HeaderContent = styled.div`
   width: 90%;
   margin: 0 auto;
   position: relative;
-  margin: 3.2rem auto;
+  margin: 2rem auto;
   div {
     display: flex;
     justify-content: space-between;
@@ -97,7 +99,7 @@ export const HeaderContent = styled.div`
       padding: 0.2rem 3rem;
       a {
         color: var(--color-background);
-        font: 500 2rem Archivo;
+        font: 500 1.5rem Archivo;
         text-decoration: none;
         padding: 0.5rem;
         transition: opacity 0.3s;
@@ -118,12 +120,12 @@ export const HeaderContent = styled.div`
     justify-content: center;
     align-items: flex-start;
     strong {
-      max-width: 350px;
+      max-width: 450px;
     }
   }
   strong {
     font: 700 3.6rem Archivo;
-    line-height: 4.2rem;
+    line-height: 3rem;
     color: var(--color-title-in-primary);
   }
 `;

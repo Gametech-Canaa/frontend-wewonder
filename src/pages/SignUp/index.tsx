@@ -45,13 +45,8 @@ const SignUp: React.FC = () => {
           profile,
         })
         .then((response) => {
-          const { id } = response.data;
           toast.success("Cadastro realizado com sucesso");
-          if (profile === "1") {
-            history.push(`/give-classes/${id}`);
-          } else {
-            history.push("/");
-          }
+          history.push("/");
         })
         .catch(() => {
           toast.error("Erro no cadastro");
@@ -64,7 +59,7 @@ const SignUp: React.FC = () => {
   return (
     <Styled.PageTeacherForm className="container">
       <PageHeader
-        title="Bem vindo à Hígia"
+        title="Bem vindo à WeWonder"
         description="Faça seu cadastro para começar a sua experiência."
       />
 

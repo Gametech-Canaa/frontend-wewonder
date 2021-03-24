@@ -1,83 +1,154 @@
-import React, { useState, FormEvent } from "react";
-
-import PageHeader from "../../components/PageHeader";
-import TeacherItem, { Teacher } from "../../components/TeacherItem";
-import Input from "../../components/Input";
-import Select from "../../components/Select";
+import React, { useState, useEffect } from "react";
+import MainPageHeader from "../../components/MainPageHeader";
+import { useHistory } from "react-router-dom";
+import whatsappIcon from "../../assets/images/icons/rocket.svg";
+import { FaRegHeart, FaHeart, FaTrashAlt } from "react-icons/fa";
+import { IoIosPeople } from "react-icons/io";
+import { AiOutlineFileSearch } from "react-icons/ai";
+import { toast } from "react-toastify";
 
 import * as Styled from "./styles";
 import api from "../../services/api";
 
-const TeacherList: React.FC = () => {
-  const [subject, setSubject] = useState("");
-  const [week_day, setWeekDay] = useState("");
-  const [time, setTime] = useState("");
+export interface Grupo {
+  id: number;
+  subject: string;
+  cost: number;
+  bio: string;
+  name: string;
+  profile: string;
+  favorito: boolean;
+  relation: number;
+}
 
-  const [teachers, setTeachers] = useState([]);
-  async function searchTeachers(e: FormEvent) {
-    e.preventDefault();
-    const response = await api.get("classes", {
-      params: { subject, week_day, time },
+export interface Relation {
+  id: number;
+  class_id: number;
+  user_id: number;
+  favorito: boolean;
+}
+
+const TeacherList: React.FC = () => {
+  let gr: Grupo[];
+  gr = [];
+  const history = useHistory();
+  const [groups, setGroups] = useState(gr);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function bringAllGroups() {
+      const token = localStorage.getItem("token");
+      if (token === null) {
+        history.push("/");
+      } else {
+        api.defaults.headers.Authorization = `Bearer ${token}`;
+      }
+      loadAllGroups();
+      setLoading(false);
+    }
+    bringAllGroups();
+  }, [history]);
+
+  async function loadAllGroups() {
+    setGroups([]);
+    const { data } = await api.get("relations");
+    data.map(async (gp: Relation) => {
+      const response = await api.get(`classes/${gp.class_id}`);
+      let newGroup: Grupo = {
+        id: response.data[0].id,
+        subject: response.data[0].subject,
+        cost: response.data[0].cost,
+        bio: response.data[0].bio,
+        name: response.data[1].name,
+        profile: response.data[1].profile,
+        favorito: gp.favorito,
+        relation: gp.id,
+      };
+      setGroups((valor) => [...valor, newGroup]);
     });
-    setTeachers(response.data);
+  }
+
+  async function handleFavorite(relation: number, isFavorito: boolean) {
+    if (isFavorito) {
+      await api.put(`relations/${relation}`, { favorito: false });
+      loadAllGroups();
+    } else {
+      await api.put(`relations/${relation}`, { favorito: true });
+      loadAllGroups();
+    }
+  }
+
+  async function handleDelete(relation: number) {
+    api.delete(`relations/${relation}`).then((response) => {
+      toast.success("Você saiu do grupo!");
+      loadAllGroups();
+    });
   }
 
   return (
     <Styled.PageTeacherList className="container">
-      <PageHeader title="Estes são os proffys disponíveis.">
-        <form id="search-teachers" onSubmit={searchTeachers}>
-          <Select
-            value={subject}
-            onChange={(e) => {
-              setSubject(e.target.value);
-            }}
-            name="subject"
-            label="Matéria"
-            options={[
-              { value: "Artes", label: "Artes" },
-              { value: "Matemática", label: "Matemática" },
-              { value: "Biologia", label: "Biologia" },
-              { value: "Inglês", label: "Inglês" },
-              { value: "Português", label: "Português" },
-              { value: "História", label: "História" },
-              { value: "Geografia", label: "Geografia" },
-            ]}
-          />
-
-          <Select
-            name="week_day"
-            label="Dia da Semana"
-            value={week_day}
-            onChange={(e) => {
-              setWeekDay(e.target.value);
-            }}
-            options={[
-              { value: "0", label: "Domingo" },
-              { value: "1", label: "Segunda-feira" },
-              { value: "2", label: "Terça-feira" },
-              { value: "3", label: "Quarta-feira" },
-              { value: "4", label: "Quinta-feira" },
-              { value: "5", label: "Sexta" },
-              { value: "6", label: "Sábado" },
-            ]}
-          />
-          <Input
-            type="time"
-            name="time"
-            label="Hora"
-            value={time}
-            onChange={(e) => {
-              setTime(e.target.value);
-            }}
-          />
-          <button type="submit">Buscar</button>
-        </form>
-      </PageHeader>
+      <MainPageHeader title="Estes são os seus grupos"></MainPageHeader>
 
       <Styled.Main>
-        {teachers.map((teacher: Teacher) => {
-          return <TeacherItem key={teacher.id} teacher={teacher} />;
-        })}
+        {loading ? (
+          <h1>Carregando ...</h1>
+        ) : (
+          groups.map((group) => {
+            return (
+              <Styled.Article
+                key={group.id}
+                profile={group.profile === "1" ? true : false}
+              >
+                <header>
+                  <IoIosPeople id="id" />
+                  <div>
+                    <strong>{group.subject}</strong>
+                    <span> {group.name} </span>
+                  </div>
+
+                  <Styled.ButtonsContainer>
+                    {group.favorito ? (
+                      <FaHeart
+                        onClick={() => {
+                          handleFavorite(group.relation, group.favorito);
+                        }}
+                      ></FaHeart>
+                    ) : (
+                      <FaRegHeart
+                        onClick={() => {
+                          handleFavorite(group.relation, group.favorito);
+                        }}
+                      ></FaRegHeart>
+                    )}
+
+                    <FaTrashAlt
+                      onClick={() => {
+                        handleDelete(group.relation);
+                      }}
+                    ></FaTrashAlt>
+                  </Styled.ButtonsContainer>
+                </header>
+
+                <p>{group.bio}</p>
+
+                <footer>
+                  {String(group.profile) === "1" ? (
+                    <p>
+                      Preço/hora
+                      <strong>R$ {group.cost}</strong>
+                    </p>
+                  ) : null}
+
+                  <a onClick={() => {}}>
+                    <AiOutlineFileSearch />
+                    {/* <img src={whatsappIcon} alt="whatsapp icon" /> */}
+                    Ver detalhes
+                  </a>
+                </footer>
+              </Styled.Article>
+            );
+          })
+        )}
       </Styled.Main>
     </Styled.PageTeacherList>
   );
