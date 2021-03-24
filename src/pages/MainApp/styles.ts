@@ -17,11 +17,11 @@ export const NewPopup = styled(Popup)`
 export const Main = styled.main`
   background: var(--color-box-base);
   width: 100%;
-  max-width: 74rem;
+  max-width: 120rem;
   border-radius: 0.8rem;
-  margin: -3.2rem auto 3.2rem;
-  padding-top: 6.4rem;
-  overflow: hidden;
+  margin: -3.2rem auto 0.2rem;
+  /* padding-top: 2rem; */
+  /* overflow: hidden; */
   label {
     color: var(--color-text-complement);
   }
@@ -60,10 +60,10 @@ export const Main = styled.main`
 `;
 
 export const Footer = styled.footer`
-  padding: 4rem 2.4rem;
+  padding: 2rem 2.4rem;
   background: var(--color-box-footer);
   border-top: 1px solid var(--color-line-in-white);
-  margin-top: 6.4rem;
+  margin-top: 1rem;
   @media (min-width: 700px) {
     padding: 4rem 6.4rem;
     display: flex;

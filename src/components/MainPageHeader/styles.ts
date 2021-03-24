@@ -41,7 +41,7 @@ export const TopBarContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   color: var(--color-text-in-primary);
-  padding: 1.6rem 0;
+  padding: 0.5rem 0;
   @media (min-width: 700px) {
     max-width: 1100px;
   }
@@ -63,7 +63,7 @@ export const HeaderContent = styled.div`
   width: 90%;
   margin: 0 auto;
   position: relative;
-  margin: 3.2rem auto;
+  margin: 2rem auto;
   div {
     display: flex;
     justify-content: space-between;
@@ -125,7 +125,7 @@ export const HeaderContent = styled.div`
   }
   strong {
     font: 700 3.6rem Archivo;
-    line-height: 4.2rem;
+    line-height: 3rem;
     color: var(--color-title-in-primary);
   }
 `;

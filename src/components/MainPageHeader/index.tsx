@@ -25,8 +25,7 @@ const MainPageHeader: React.FC<MainPageHeaderProps> = (props) => {
         <Link to="/main-app">
           <img src={logoImg} alt="Proffy" />
         </Link>
-        <Link to="/terms">Termos e Condições</Link>
-        <Link to="/terms">Fale conosco</Link>
+
         <button onClick={handleSignOut}>Sair</button>
       </Styled.TopBarContainer>
 

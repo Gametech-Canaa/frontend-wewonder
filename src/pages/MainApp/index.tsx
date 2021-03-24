@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 
 import MainPageHeader from "../../components/MainPageHeader";
 
@@ -141,66 +141,76 @@ const TeacherForm: React.FC = () => {
 
   function buscarGrupos() {
     return (
-      <MapContainer
-        center={initialLocale}
-        zoom={10}
-        scrollWheelZoom={false}
-        style={{ height: "100vh" }}
-      >
-        <TileLayer
-          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
+      <>
+        <Styled.Main>
+          <MapContainer
+            center={initialLocale}
+            zoom={12}
+            scrollWheelZoom={false}
+            style={{ height: "60vh", borderRadius: "5px" }}
+          >
+            <TileLayer
+              attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
 
-        {locais.length > 0
-          ? locais.map((gp: Address, index) => (
-              <Marker
-                key={index}
-                position={[gp.latitude, gp.longitude]}
-                eventHandlers={{
-                  click: () => {
-                    teste(gp);
-                  },
-                }}
-              >
-                <Styled.NewPopup>
-                  {selectedGroup !== null ? (
-                    <Article
-                      profile={String(criador.profile) === "1" ? true : false}
-                    >
-                      <header>
-                        <div>
-                          <strong>{selectedGroup.subject}</strong>
-                          <span>{criador.name}</span>
-                        </div>
-                      </header>
-
-                      <p>{selectedGroup.bio}</p>
-
-                      <footer>
-                        {String(criador.profile) === "1" ? (
-                          <p>
-                            Preço/hora
-                            <strong>R$ {selectedGroup.cost}</strong>
-                          </p>
-                        ) : null}
-
-                        <a
-                          onClick={() => {
-                            handleJoinGroup(selectedGroup.id);
-                          }}
+            {locais.length > 0
+              ? locais.map((gp: Address, index) => (
+                  <Marker
+                    key={index}
+                    position={[gp.latitude, gp.longitude]}
+                    eventHandlers={{
+                      click: () => {
+                        teste(gp);
+                      },
+                    }}
+                  >
+                    <Styled.NewPopup>
+                      {selectedGroup !== null ? (
+                        <Article
+                          profile={
+                            String(criador.profile) === "1" ? true : false
+                          }
                         >
-                          <img src={whatsappIcon} alt="whatsapp icon" />
-                          Participar
-                        </a>
-                      </footer>
-                    </Article>
-                  ) : null}
-                </Styled.NewPopup>
-              </Marker>
-            ))
-          : null}
-      </MapContainer>
+                          <header>
+                            <div>
+                              <strong>{selectedGroup.subject}</strong>
+                              <span>{criador.name}</span>
+                            </div>
+                          </header>
+
+                          <p>{selectedGroup.bio}</p>
+
+                          <footer>
+                            {String(criador.profile) === "1" ? (
+                              <p>
+                                Preço/hora
+                                <strong>R$ {selectedGroup.cost}</strong>
+                              </p>
+                            ) : null}
+
+                            <a
+                              onClick={() => {
+                                handleJoinGroup(selectedGroup.id);
+                              }}
+                            >
+                              <img src={whatsappIcon} alt="whatsapp icon" />
+                              Participar
+                            </a>
+                          </footer>
+                        </Article>
+                      ) : null}
+                    </Styled.NewPopup>
+                  </Marker>
+                ))
+              : null}
+          </MapContainer>
+        </Styled.Main>
+        <Styled.Footer>
+          <Link to="/terms">Termos e Condições</Link>
+          <Link to="/terms">Fale conosco</Link>
+        </Styled.Footer>
+      </>
     );
   }
 
