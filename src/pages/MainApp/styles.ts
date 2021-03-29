@@ -19,7 +19,7 @@ export const Main = styled.main`
   width: 100%;
   max-width: 120rem;
   border-radius: 0.8rem;
-  margin: -3.2rem auto 0.2rem;
+  margin: -1rem auto 0.2rem;
   /* padding-top: 2rem; */
   /* overflow: hidden; */
   label {
@@ -123,5 +123,48 @@ export const Mapa = styled(Map)`
     height: 100vh;
     width: 100%;
     padding: 10rem;
+  }
+`;
+
+export const PageTeacherList = styled.div`
+  #search-teachers {
+    button {
+      width: 100%;
+      height: 5.6rem;
+      background: var(--color-secundary);
+      color: var(--color-button-text);
+      border: 0;
+      border-radius: 0.8rem;
+      cursor: pointer;
+      font: 700 1.6rem Archivo;
+      display: flex;
+      align-self: center;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      transition: background-color 0.2s;
+
+      @media (min-width: 700px) {
+        width: 100%;
+      }
+      &:hover {
+        background: var(--color-secundary-dark);
+      }
+    }
+  }
+  @media (min-width: 700px) {
+    max-width: 100% !important;
+    #search-teachers {
+      margin: -5rem 5rem 0.4rem !important;
+      justify-self: center;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      column-gap: 16px;
+    }
+  }
+  #search-teachers {
+    label {
+      color: #f6f6f6;
+    }
   }
 `;

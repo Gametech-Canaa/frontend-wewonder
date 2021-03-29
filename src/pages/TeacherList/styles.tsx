@@ -63,9 +63,7 @@ export const ButtonsContainer = styled.div`
   @media (min-width: 700px) {
     height: 5rem;
     display: flex;
-    width: 39%;
     justify-content: flex-end !important;
-
     svg {
       color: var(--color-primary);
       font-size: 2rem !important;
@@ -96,7 +94,16 @@ export const Article = styled.article<ProfileProps>`
     align-items: center;
     @media (min-width: 700px) {
       padding: 3.2rem;
+      div {
+        justify-content: space-between !important;
+        max-width: 38rem;
+      }
     }
+
+    img {
+      width: 10rem;
+    }
+
     #id {
       color: ${(props) => (props.profile ? "#f6f6f6" : "#333")};
       width: 8rem;
@@ -111,6 +118,8 @@ export const Article = styled.article<ProfileProps>`
         color: ${(props) => (props.profile ? "#f6f6f6" : "#333")};
       }
       span {
+        width: 120rem;
+        text-transform: uppercase;
         font-size: 1.6rem;
         display: block;
         color: ${(props) => (props.profile ? "#f6f6f6" : "#666")};
@@ -159,6 +168,9 @@ export const Article = styled.article<ProfileProps>`
         svg {
           font-size: 3rem;
           margin-right: 1.6rem;
+        }
+        img {
+          width: 2rem;
         }
       }
       :hover {
