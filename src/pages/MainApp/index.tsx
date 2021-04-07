@@ -6,7 +6,6 @@ import MainPageHeader from "../../components/MainPageHeader";
 import axios, { AxiosResponse } from "axios";
 import { Article } from "../../components/TeacherItem/styles";
 import whatsappIcon from "../../assets/images/icons/rocket.svg";
-import { IoMdRefresh } from "react-icons/io";
 
 import * as Styled from "./styles";
 import api from "../../services/api";
@@ -305,7 +304,7 @@ const TeacherForm: React.FC = () => {
           </Styled.Main>
 
           <Styled.Footer>
-            <Link to="/terms">Termos e Condições</Link>
+            <Link to="/terms-conditions">Termos e Condições</Link>
             <Link to="/terms">Fale conosco</Link>
           </Styled.Footer>
         </Styled.PageTeacherList>

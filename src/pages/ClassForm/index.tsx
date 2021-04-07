@@ -28,7 +28,6 @@ const ClassForm: React.FC = () => {
   api.defaults.headers.Authorization = `Bearer ${token}`;
 
   const history = useHistory();
-  const [subject, setSubject] = useState("");
   const [cep, setCep] = useState("");
   const [limite, setLimite] = useState("");
   const [bio, setBio] = useState("");

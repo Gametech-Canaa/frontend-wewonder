@@ -3,6 +3,10 @@ import { Dropdown } from "primereact/dropdown";
 
 export const DropStyled = styled(Dropdown)`
   position: relative;
+  span {
+    font: 700 1.3rem Poppins !important;
+    color: #000;
+  }
   + .input-block {
     margin-top: 1.4rem;
     @media (min-width: 700px) {

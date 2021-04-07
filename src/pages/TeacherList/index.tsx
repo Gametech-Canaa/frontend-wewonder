@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import MainPageHeader from "../../components/MainPageHeader";
 import { useHistory } from "react-router-dom";
-import whatsappIcon from "../../assets/images/icons/rocket.svg";
 import { FaRegHeart, FaHeart, FaTrashAlt } from "react-icons/fa";
 import { IoIosPeople } from "react-icons/io";
 import { AiOutlineFileSearch } from "react-icons/ai";
@@ -191,7 +190,7 @@ const TeacherList: React.FC = () => {
                     </p>
                   ) : null}
 
-                  <a onClick={() => {}}>
+                  <a onClick={() => history.push(`group/${group.id}`)}>
                     <AiOutlineFileSearch />
                     {/* <img src={whatsappIcon} alt="whatsapp icon" /> */}
                     Ver detalhes
