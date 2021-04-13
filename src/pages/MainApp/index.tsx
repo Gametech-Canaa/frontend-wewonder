@@ -156,53 +156,53 @@ const TeacherForm: React.FC = () => {
 
             {locais.length > 0
               ? locais.map((gp: Address, index) => (
-                  <Marker
-                    key={index}
-                    position={[gp.latitude, gp.longitude]}
-                    eventHandlers={{
-                      click: () => {
-                        teste(gp);
-                      },
-                    }}
-                  >
-                    <Styled.NewPopup>
-                      {selectedGroup !== null ? (
-                        <Article
-                          profile={
-                            String(criador.profile) === "1" ? true : false
-                          }
-                        >
-                          <header>
-                            <div>
-                              <strong>{selectedGroup.subject}</strong>
-                              <span>{criador.name}</span>
-                            </div>
-                          </header>
+                <Marker
+                  key={index}
+                  position={[gp.latitude, gp.longitude]}
+                  eventHandlers={{
+                    click: () => {
+                      teste(gp);
+                    },
+                  }}
+                >
+                  <Styled.NewPopup>
+                    {selectedGroup !== null ? (
+                      <Article
+                        profile={
+                          String(criador.profile) === "1" ? true : false
+                        }
+                      >
+                        <header>
+                          <div>
+                            <strong>{selectedGroup.subject}</strong>
+                            <span>{criador.name}</span>
+                          </div>
+                        </header>
 
-                          <p>{selectedGroup.bio}</p>
+                        <p>{selectedGroup.bio}</p>
 
-                          <footer>
-                            {String(criador.profile) === "1" ? (
-                              <p>
-                                Preço/hora
-                                <strong>R$ {selectedGroup.cost}</strong>
-                              </p>
-                            ) : null}
+                        <footer>
+                          {String(criador.profile) === "1" ? (
+                            <p>
+                              Preço/hora
+                              <strong>R$ {selectedGroup.cost}</strong>
+                            </p>
+                          ) : null}
 
-                            <a
-                              onClick={() => {
-                                handleJoinGroup(selectedGroup.id);
-                              }}
-                            >
-                              <img src={whatsappIcon} alt="whatsapp icon" />
+                          <a
+                            onClick={() => {
+                              handleJoinGroup(selectedGroup.id);
+                            }}
+                          >
+                            <img src={whatsappIcon} alt="whatsapp icon" />
                               Participar
                             </a>
-                          </footer>
-                        </Article>
-                      ) : null}
-                    </Styled.NewPopup>
-                  </Marker>
-                ))
+                        </footer>
+                      </Article>
+                    ) : null}
+                  </Styled.NewPopup>
+                </Marker>
+              ))
               : null}
           </MapContainer>
         </Styled.Main>
