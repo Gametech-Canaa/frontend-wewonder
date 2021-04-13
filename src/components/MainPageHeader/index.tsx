@@ -3,7 +3,7 @@ import { Link, useHistory } from "react-router-dom";
 
 import * as Styled from "./styles";
 
-import logoImg from "../../assets/images/logo.svg";
+import logoImg from "../../assets/images/wwlogopequena.png";
 import { toast } from "react-toastify";
 
 interface MainPageHeaderProps {
@@ -63,7 +63,7 @@ const MainPageHeader: React.FC<MainPageHeaderProps> = (props) => {
     <Styled.Header>
       <Styled.TopBarContainer>
         <Link to="/main-app">
-          <img src={logoImg} alt="Proffy" />
+          <img src={logoImg} alt="WeWonder" />
         </Link>
 
         <button onClick={handleSignOut}>Sair</button>

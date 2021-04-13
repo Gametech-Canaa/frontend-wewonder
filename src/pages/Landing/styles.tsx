@@ -50,10 +50,6 @@ export const PageLandingContent = styled.div`
       margin-top: 15rem;
     }
   }
-  .hero-image {
-    width: 80%;
-    height: 80%;
-  }
 `;
 
 export const LogoContainer = styled.div`
@@ -73,7 +69,8 @@ export const LogoContainer = styled.div`
     margin-top: 0.8rem;
   }
   img {
-    height: 10rem;
+    height: 25rem;
+    margin-bottom: -5rem;
   }
   @media (min-width: 1100px) {
     grid-area: logo;
@@ -85,7 +82,7 @@ export const LogoContainer = styled.div`
       font-weight: 900;
       font-size: 7rem;
       line-height: 4.6rem;
-      margin-top: 0.8rem;
+      margin-top: 1rem;
     }
     h2 {
       text-align: initial;

@@ -10,7 +10,7 @@ export const Header = styled.header`
     var(--color-primary-dark)
   );
   img {
-    height: 1rem;
+    height: 5rem;
   }
   button {
     color: var(--color-button-text);
@@ -22,7 +22,7 @@ export const Header = styled.header`
   @media (min-width: 700px) {
     height: 200px;
     img {
-      height: 1.6rem;
+      height: 5rem;
     }
     button {
       color: var(--color-button-text);
