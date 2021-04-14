@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 
 import * as Styled from "./styles";
 
-import logoImg from "../../assets/images/logo.svg";
+import logoImg from "../../assets/images/wwlogopequena.png";
 import { toast } from "react-toastify";
 
 interface MainPageHeaderProps {
@@ -13,17 +13,57 @@ interface MainPageHeaderProps {
 
 const MainPageHeader: React.FC<MainPageHeaderProps> = (props) => {
   const history = useHistory();
+  let id = localStorage.getItem("id");
+  const [activeItem, setActiveItem] = useState();
+
   function handleSignOut() {
     let nome = localStorage.getItem("name");
     toast.warning(`Até mais, ${nome}!`);
     localStorage.clear();
     history.push("/");
   }
+  const items = [
+    {
+      label: "Home",
+      icon: "pi pi-fw pi-home",
+      command: (event: any) => {
+        history.push("/main-app");
+      },
+    },
+    {
+      label: "Meus Grupos",
+      icon: "pi pi-fw pi-calendar",
+      command: (event: any) => {
+        history.push("/groups");
+      },
+    },
+    {
+      label: "Meu Perfil",
+      icon: "pi pi-fw pi-pencil",
+      command: (event: any) => {
+        history.push(`/profile/${id}`);
+      },
+    },
+    {
+      label: "Minhas Conquistas",
+      icon: "pi pi-fw pi-file",
+      command: (event: any) => {
+        history.push(`/achivements`);
+      },
+    },
+    {
+      label: "Criar Grupo",
+      icon: "pi pi-fw pi-cog",
+      command: (event: any) => {
+        history.push(`/give-classes`);
+      },
+    },
+  ];
   return (
     <Styled.Header>
       <Styled.TopBarContainer>
         <Link to="/main-app">
-          <img src={logoImg} alt="Proffy" />
+          <img src={logoImg} alt="WeWonder" />
         </Link>
 
         <button onClick={handleSignOut}>Sair</button>
@@ -31,13 +71,11 @@ const MainPageHeader: React.FC<MainPageHeaderProps> = (props) => {
 
       <Styled.HeaderContent>
         <strong>{props.title}</strong>
-        <div>
-          <Link to="/main-app">Home</Link>
-          <Link to="/groups">Meus Grupos</Link>
-          <Link to="/profile">Meu Perfil</Link>
-          <Link to="/achivements">Minhas Conquistas</Link>
-          <Link to="/give-classes">Criar Grupo</Link>
-        </div>
+        <Styled.NewMenu
+          model={items}
+          activeItem={activeItem}
+          onTabChange={(e) => setActiveItem(e.value)}
+        />
         {props.children}
       </Styled.HeaderContent>
     </Styled.Header>

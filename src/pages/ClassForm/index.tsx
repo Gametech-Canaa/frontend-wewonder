@@ -12,20 +12,30 @@ import * as Styled from "./styles";
 import axios from "axios";
 import api from "../../services/api";
 import { toast } from "react-toastify";
+import { DropStyled } from "../../components/Dropdown";
+
+interface Modality {
+  id: number;
+  attributes: { name: string };
+  name: string;
+}
 
 const ClassForm: React.FC = () => {
+  let mods: Modality[];
+  mods = [];
   const profile = localStorage.getItem("profile");
   const token = localStorage.getItem("token");
   api.defaults.headers.Authorization = `Bearer ${token}`;
 
   const history = useHistory();
-  const [subject, setSubject] = useState("");
   const [cep, setCep] = useState("");
   const [limite, setLimite] = useState("");
   const [bio, setBio] = useState("");
   const [latitude, setLatitude] = useState();
   const [longitude, setLongitude] = useState();
   const [cost, setCost] = useState("");
+  const [modalities, setModalities] = useState(mods);
+  const [selectedModalite, setSelectedModalite] = useState({});
   const [scheduleItems, setScheduleItems] = useState([
     { week_day: 0, from: "", to: "" },
   ]);
@@ -33,6 +43,23 @@ const ClassForm: React.FC = () => {
   function addNewScheduleItem() {
     setScheduleItems([...scheduleItems, { week_day: 0, from: "", to: "" }]);
   }
+
+  useEffect(() => {
+    async function loadModalities() {
+      const url = axios.create({
+        baseURL: `https://sports.api.decathlon.com/`,
+      });
+
+      url.get(`sports`).then((response) => {
+        const valor = response.data.data.map((data: Modality) => ({
+          id: data.id,
+          name: data.attributes.name,
+        }));
+        setModalities(valor);
+      });
+    }
+    loadModalities();
+  }, []);
 
   useEffect(() => {
     function getGeoLocation() {
@@ -58,7 +85,7 @@ const ClassForm: React.FC = () => {
     e.preventDefault();
     api
       .post("classes", {
-        subject,
+        subject: selectedModalite,
         cost: Number(cost),
         schedule: scheduleItems,
         cep,
@@ -102,16 +129,20 @@ const ClassForm: React.FC = () => {
         <form onSubmit={handleCreateClass}>
           <fieldset>
             <legend>Criar grupo</legend>
-
-            <Input
-              name="subject"
-              label="Atividade de interesse"
-              value={subject}
+            <DropStyled
+              style={{ fontSize: "25px !important" }}
+              filter
+              filterBy="label"
+              options={modalities.map((mod) => ({
+                value: String(mod.id),
+                label: mod.name,
+              }))}
+              value={selectedModalite}
               onChange={(e) => {
-                setSubject(e.target.value);
+                setSelectedModalite(e.target.value);
               }}
+              placeholder="Selecione a modalidade"
             />
-
             {profile === "1" ? (
               <Input
                 name="cost"

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { TabMenu } from "primereact/tabmenu";
 
 export const Header = styled.header`
   display: flex;
@@ -9,7 +10,7 @@ export const Header = styled.header`
     var(--color-primary-dark)
   );
   img {
-    height: 1rem;
+    height: 5rem;
   }
   button {
     color: var(--color-button-text);
@@ -21,7 +22,7 @@ export const Header = styled.header`
   @media (min-width: 700px) {
     height: 200px;
     img {
-      height: 1.6rem;
+      height: 5rem;
     }
     button {
       color: var(--color-button-text);
@@ -64,7 +65,8 @@ export const HeaderContent = styled.div`
   margin: 0 auto;
   position: relative;
   margin: 2rem auto;
-  div {
+
+  /* div {
     display: flex;
     justify-content: space-between;
     width: 100%;
@@ -84,8 +86,8 @@ export const HeaderContent = styled.div`
         opacity: 0.6;
         border-bottom: 0.1rem solid #eee;
       }
-    }
-  }
+    } */
+  /* }
 
   @media (min-width: 700px) {
     div {
@@ -122,10 +124,26 @@ export const HeaderContent = styled.div`
     strong {
       max-width: 450px;
     }
-  }
+  }*/
   strong {
     font: 700 3.6rem Archivo;
     line-height: 3rem;
+    margin-bottom: 2rem !important;
     color: var(--color-title-in-primary);
+  }
+`;
+
+export const NewMenu = styled(TabMenu)`
+  ul {
+    background: transparent !important;
+    justify-content: space-between;
+    li {
+      background: transparent !important;
+      a {
+        color: #f6f6f6 !important;
+        font: 500 1.5rem Archivo;
+        background: transparent !important;
+      }
+    }
   }
 `;

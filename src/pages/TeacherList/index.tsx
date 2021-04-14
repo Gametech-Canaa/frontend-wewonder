@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import MainPageHeader from "../../components/MainPageHeader";
 import { useHistory } from "react-router-dom";
-import whatsappIcon from "../../assets/images/icons/rocket.svg";
 import { FaRegHeart, FaHeart, FaTrashAlt } from "react-icons/fa";
 import { IoIosPeople } from "react-icons/io";
 import { AiOutlineFileSearch } from "react-icons/ai";
@@ -9,6 +8,7 @@ import { toast } from "react-toastify";
 
 import * as Styled from "./styles";
 import api from "../../services/api";
+import axios from "axios";
 
 export interface Grupo {
   id: number;
@@ -28,12 +28,23 @@ export interface Relation {
   favorito: boolean;
 }
 
+interface Modality {
+  id: number;
+  attributes: { name: string; icon: string };
+  name: string;
+  icon: string;
+}
+
 const TeacherList: React.FC = () => {
   let gr: Grupo[];
   gr = [];
+
+  let mods: Modality[];
+  mods = [];
   const history = useHistory();
   const [groups, setGroups] = useState(gr);
   const [loading, setLoading] = useState(true);
+  const [modalities, setModalities] = useState(mods);
 
   useEffect(() => {
     async function bringAllGroups() {
@@ -48,6 +59,24 @@ const TeacherList: React.FC = () => {
     }
     bringAllGroups();
   }, [history]);
+
+  useEffect(() => {
+    async function loadModalities() {
+      const url = axios.create({
+        baseURL: `https://sports.api.decathlon.com/`,
+      });
+
+      url.get(`sports`).then((response) => {
+        const valor = response.data.data.map((data: Modality) => ({
+          id: data.id,
+          name: data.attributes.name,
+          icon: data.attributes.icon,
+        }));
+        setModalities(valor);
+      });
+    }
+    loadModalities();
+  }, []);
 
   async function loadAllGroups() {
     setGroups([]);
@@ -85,6 +114,23 @@ const TeacherList: React.FC = () => {
     });
   }
 
+  function returnName(mood: string): string {
+    if (mood && modalities.length > 0) {
+      const nome = modalities.filter((mod) => String(mod.id) === mood);
+
+      return nome[0].name;
+    }
+    return "";
+  }
+
+  function returnIcon(mood: string): string {
+    if (mood && modalities.length > 0) {
+      const nome = modalities.filter((mod) => String(mod.id) === mood);
+      return nome[0].icon;
+    }
+    return "";
+  }
+
   return (
     <Styled.PageTeacherList className="container">
       <MainPageHeader title="Estes são os seus grupos"></MainPageHeader>
@@ -100,9 +146,14 @@ const TeacherList: React.FC = () => {
                 profile={group.profile === "1" ? true : false}
               >
                 <header>
-                  <IoIosPeople id="id" />
+                  {returnIcon(group.subject) ? (
+                    <img src={returnIcon(group.subject)} alt="modalities" />
+                  ) : (
+                    <IoIosPeople id="id" />
+                  )}
+
                   <div>
-                    <strong>{group.subject}</strong>
+                    <strong>{returnName(group.subject)}</strong>
                     <span> {group.name} </span>
                   </div>
 
@@ -139,7 +190,7 @@ const TeacherList: React.FC = () => {
                     </p>
                   ) : null}
 
-                  <a onClick={() => {}}>
+                  <a onClick={() => history.push(`group/${group.id}`)}>
                     <AiOutlineFileSearch />
                     {/* <img src={whatsappIcon} alt="whatsapp icon" /> */}
                     Ver detalhes

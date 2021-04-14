@@ -70,6 +70,8 @@ export const LogoContainer = styled.div`
   }
   img {
     height: 25rem;
+    margin-bottom: -5rem;
+
   }
   @media (min-width: 1100px) {
     grid-area: logo;
@@ -81,7 +83,7 @@ export const LogoContainer = styled.div`
       font-weight: 900;
       font-size: 7rem;
       line-height: 4.6rem;
-      margin-top: 0.8rem;
+      margin-top: 1rem;
     }
     h2 {
       text-align: initial;
@@ -89,6 +91,7 @@ export const LogoContainer = styled.div`
     }
     img {
       height: 100%;
+      padding: -5rem;
     }
   }
 `;

@@ -45,12 +45,12 @@ export const PageTeacherList = styled.div`
 `;
 
 export const Main = styled.main`
-  margin: 3.2rem auto;
+  margin: -2.5rem auto;
   width: 90%;
   @media (min-width: 700px) {
-    padding: 3.2rem 0;
+    padding: 2.5rem 0;
     max-width: 740px;
-    margin: 0 auto;
+    margin: -2.5rem auto;
   }
 `;
 
@@ -130,7 +130,7 @@ export const Article = styled.article<ProfileProps>`
     padding: 3.2rem 2rem;
     background: ${(props) => (props.profile ? "rgba( 75,0,130,0.2)" : "#fff")};
     border-top: 1px solid var(--color-line-in-white);
-    display: flex;
+    display: flex !important;
     align-items: center;
     justify-content: space-between;
     color: ${(props) => (props.profile ? "#f6f6f6" : "#666")};
@@ -138,6 +138,23 @@ export const Article = styled.article<ProfileProps>`
     @media (min-width: 700px) {
       padding: 3.2rem;
     }
+    ul {
+      h2 {
+        font-size: 2rem;
+        color: var(--color-primary-darker);
+      }
+    }
+    li {
+      width: 68rem;
+      display: flex;
+      justify-content: space-between !important;
+      align-items: center;
+      margin-bottom: 0.5rem;
+      a {
+        background: ${(props) => (props.profile ? "transparent" : "#F589CE")};
+      }
+    }
+
     strong {
       color: #f6f6f6;
       font-size: 1.6rem;
@@ -162,9 +179,11 @@ export const Article = styled.article<ProfileProps>`
       justify-content: space-evenly;
       transition: 0.2s;
       @media (min-width: 700px) {
-        width: ${(props) => (props.profile ? "24.5rem" : "100rem")};
+        width: ${(props) => (props.profile ? "24.5rem" : "25rem")};
         font-size: 1.6rem;
         justify-content: center;
+        background: ${(props) => (props.profile ? "#666" : "transparent")};
+
         svg {
           font-size: 3rem;
           margin-right: 1.6rem;
