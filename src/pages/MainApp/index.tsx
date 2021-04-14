@@ -232,7 +232,6 @@ const TeacherForm: React.FC = () => {
               value={time}
               onChange={(e) => setTime(e.target.value)}
             />
-
             <button type="submit">Buscar</button>
           </form>
 
