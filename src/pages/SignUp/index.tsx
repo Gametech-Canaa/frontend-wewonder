@@ -19,6 +19,8 @@ interface User {
   bio?: string;
   whatsapp?: string;
   cost?: string;
+  cpf?: string;
+  cref?: string;
 }
 
 const SignUp: React.FC = () => {
@@ -26,7 +28,8 @@ const SignUp: React.FC = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const [cref, setCref] = useState("");
+  const [cpf, setCpf] = useState("");
   const [bio, setBio] = useState("");
   const [whatsapp, setWhatsapp] = useState("");
 
@@ -43,6 +46,8 @@ const SignUp: React.FC = () => {
           bio: bio ? bio : " ",
           whatsapp,
           profile,
+          cref: cref ? cref : " ",
+          cpf,
         })
         .then((response) => {
           toast.success("Cadastro realizado com sucesso");
@@ -74,6 +79,14 @@ const SignUp: React.FC = () => {
               value={name}
               onChange={(e) => {
                 setName(e.target.value);
+              }}
+            />
+            <Input
+              name="cpf"
+              label="CPF"
+              value={cpf}
+              onChange={(e) => {
+                setCpf(e.target.value);
               }}
             />
             <Input
@@ -126,6 +139,18 @@ const SignUp: React.FC = () => {
                 setProfile(e.target.value);
               }}
             />
+            {profile === "1" ? (
+              <Input
+                name="cref"
+                label="Número do CREF"
+                value={cref}
+                onChange={(e) => {
+                  setCref(e.target.value);
+                }}
+              />
+            ) : (
+              <div />
+            )}
           </fieldset>
 
           <Styled.Footer>

@@ -22,7 +22,6 @@ export const PageLanding = styled.div`
         "logo logo hero"
         "buttons buttons total";
     }
-    
   }
 `;
 
@@ -55,7 +54,7 @@ export const PageLandingContent = styled.div`
 
 export const LogoContainer = styled.div`
   text-align: center;
-    h1 {
+  h1 {
     font-family: "Tarantello", fantasy;
     font-weight: 900;
     font-size: 3.5rem;
@@ -69,9 +68,8 @@ export const LogoContainer = styled.div`
     margin-top: 0.8rem;
   }
   img {
-    height: 25rem;
-    margin-bottom: -5rem;
-
+    height: 40rem;
+    margin-left: -2rem;
   }
   @media (min-width: 1100px) {
     grid-area: logo;
