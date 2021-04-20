@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import * as Styled from "./styles";
 
-import logoImg from "../../assets/images/logo.svg";
+import logoImg from "../../assets/images/wwlogopequena.png";
 import backIcon from "../../assets/images/icons/back.svg";
 
 interface PageHeaderProps {
@@ -18,7 +18,7 @@ const PageHeader: React.FC<PageHeaderProps> = (props) => {
         <Link to="/">
           <img src={backIcon} alt="Ícone de voltar" />
         </Link>
-        <img src={logoImg} alt="Proffy" />
+        <img src={logoImg} />
       </Styled.TopBarContainer>
 
       <Styled.HeaderContent>

@@ -32,7 +32,7 @@ export const TopBarContainer = styled.div`
     opacity: 0.6;
   }
   > img {
-    height: 1.6rem;
+    height: 10rem;
   }
 `;
 
