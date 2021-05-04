@@ -83,6 +83,8 @@ const ClassForm: React.FC = () => {
 
   function handleCreateClass(e: FormEvent) {
     e.preventDefault();
+    console.log(latitude);
+    console.log(longitude);
     api
       .post("classes", {
         subject: selectedModalite,
