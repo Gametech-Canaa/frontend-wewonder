@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
 
 // import logoImg from "../../assets/images/logo.svg";
-import landingImg from "../../assets/images/wwlogo.png";
+import landingImg from "../../assets/images/WE_WONDER_LOGO.png";
 import Input from "../../components/Input";
 
 import purpleHeartIcon from "../../assets/images/icons/purple-heart.svg";
