@@ -26,6 +26,10 @@ export const TopBarContainer = styled.div`
   }
   a {
     height: 3.2rem;
+    img{
+      height: 5rem;
+      transform: rotate(180deg) !important;
+    }
     transition: opacity 0.2s;
   }
   a:hover {
