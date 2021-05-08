@@ -106,7 +106,7 @@ export const Footer = styled.footer`
 export const ScheduleItem = styled.div`
   @media (min-width: 700px) {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-columns: 2fr 1fr 1fr 0.5fr;
     column-gap: 1.6rem;
   }
 `;

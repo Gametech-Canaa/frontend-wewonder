@@ -13,6 +13,7 @@ import axios from "axios";
 import api from "../../services/api";
 import { toast } from "react-toastify";
 import { DropStyled } from "../../components/Dropdown";
+import { MdDelete } from "react-icons/md"
 
 interface Modality {
   id: number;
@@ -118,6 +119,11 @@ const ClassForm: React.FC = () => {
       return scheduleItem;
     });
     setScheduleItems(updateScheduleItems);
+  }
+
+  function deleteItem(index : number){
+    const schedule  = scheduleItems.filter((item, i) => (i !== index))
+    setScheduleItems(schedule)
   }
 
   return (
@@ -230,6 +236,7 @@ const ClassForm: React.FC = () => {
                       setScheduleItemValue(index, "to", e.target.value)
                     }
                   />
+                 <MdDelete style={{alignSelf:'center', justifySelf:'center', width: '3rem'}} onClick={ () => {deleteItem(index)}}/>
                 </Styled.ScheduleItem>
               );
             })}
