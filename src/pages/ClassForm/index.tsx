@@ -43,6 +43,7 @@ const ClassForm: React.FC = () => {
 
   function addNewScheduleItem() {
     setScheduleItems([...scheduleItems, { week_day: 0, from: "", to: "" }]);
+    console.log(scheduleItems)
   }
 
   useEffect(() => {
@@ -200,7 +201,7 @@ const ClassForm: React.FC = () => {
 
             {scheduleItems.map((scheduleItem, index) => {
               return (
-                <Styled.ScheduleItem key={scheduleItem.week_day}>
+                <Styled.ScheduleItem key={index}>
                   <Select
                     name="week_day"
                     label="Dia da Semana"
