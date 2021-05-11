@@ -66,7 +66,7 @@ const ClassForm: React.FC = () => {
 
   useEffect(() => {
     function getGeoLocation() {
-      if (String(cep).length === 8) {
+      if (String(cep).length === 8 && cep !== undefined) {
         const url = axios.create({
           baseURL: `https://maps.googleapis.com/maps/api/`,
         });
@@ -79,7 +79,7 @@ const ClassForm: React.FC = () => {
             setLatitude(response.data.results[0].geometry.location.lat);
             setLongitude(response.data.results[0].geometry.location.lng);
             console.log(response.data.results[0].geometry.location.lat , response.data.results[0].geometry.location.lng)
-          }).catch(()=> toast("CEP INVÁLIDO"));
+          }).catch(()=> toast.warn("CEP INVÁLIDO"));
       }
     }
     getGeoLocation();
