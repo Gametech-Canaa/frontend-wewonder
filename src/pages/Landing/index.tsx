@@ -82,7 +82,7 @@ const Landing: React.FC = () => {
             <Input
               name="email"
               label="Email"
-              value={email}
+              value={email.toLocaleLowerCase()}
               onChange={(e) => {
                 setEmail(e.target.value);
               }}
