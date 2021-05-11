@@ -14,6 +14,7 @@ import api from "../../services/api";
 import { toast } from "react-toastify";
 import { DropStyled } from "../../components/Dropdown";
 import { MdDelete } from "react-icons/md"
+import { string } from "yup/lib/locale";
 
 interface Modality {
   id: number;
@@ -69,7 +70,7 @@ const ClassForm: React.FC = () => {
         const url = axios.create({
           baseURL: `https://maps.googleapis.com/maps/api/`,
         });
-
+        
         url
           .get(
             `geocode/json?address=${cep}&key=AIzaSyCZKFKqajK5lnh1ykTr5rPxnpRgR66POQg`
@@ -77,7 +78,8 @@ const ClassForm: React.FC = () => {
           .then((response) => {
             setLatitude(response.data.results[0].geometry.location.lat);
             setLongitude(response.data.results[0].geometry.location.lng);
-          });
+            console.log(response.data.results[0].geometry.location.lat , response.data.results[0].geometry.location.lng)
+          }).catch(()=> toast("CEP INVÁLIDO"));
       }
     }
     getGeoLocation();
@@ -168,6 +170,7 @@ const ClassForm: React.FC = () => {
             <Input
               name="cep"
               label="CEP de encontro do grupo"
+              autoComplete="off"
               value={cep}
               onChange={(e) => {
                 setCep(e.target.value);
