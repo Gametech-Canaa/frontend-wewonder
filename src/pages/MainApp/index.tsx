@@ -313,7 +313,7 @@ const TeacherForm: React.FC = () => {
         description="Vamos começar a procurar companheiras de exercício"
       />
 
-      {locais.length > 0 ? buscarGrupos() : <h1>Carregando ... </h1>}
+      {locais.length > 0 ? buscarGrupos() : <h1> Não há grupos criados, acesse o menu Criar Grupo para começar </h1>}
     </Styled.PageTeacherForm>
   );
 };

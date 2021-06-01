@@ -13,6 +13,8 @@ import axios from "axios";
 import api from "../../services/api";
 import { toast } from "react-toastify";
 import { DropStyled } from "../../components/Dropdown";
+import { MdDelete } from "react-icons/md"
+import { string } from "yup/lib/locale";
 
 interface Modality {
   id: number;
@@ -41,6 +43,7 @@ const ClassForm: React.FC = () => {
 
   function addNewScheduleItem() {
     setScheduleItems([...scheduleItems, { week_day: 0, from: "", to: "" }]);
+    console.log(scheduleItems)
   }
 
   useEffect(() => {
@@ -58,11 +61,11 @@ const ClassForm: React.FC = () => {
 
   useEffect(() => {
     function getGeoLocation() {
-      if (String(cep).length === 8) {
+      if (String(cep).length === 8 && cep !== undefined) {
         const url = axios.create({
           baseURL: `https://maps.googleapis.com/maps/api/`,
         });
-
+        
         url
           .get(
             `geocode/json?address=${cep}&key=AIzaSyCZKFKqajK5lnh1ykTr5rPxnpRgR66POQg`
@@ -70,7 +73,8 @@ const ClassForm: React.FC = () => {
           .then((response) => {
             setLatitude(response.data.results[0].geometry.location.lat);
             setLongitude(response.data.results[0].geometry.location.lng);
-          });
+            console.log(response.data.results[0].geometry.location.lat , response.data.results[0].geometry.location.lng)
+          }).catch(()=> toast.warn("CEP INVÁLIDO"));
       }
     }
     getGeoLocation();
@@ -114,6 +118,11 @@ const ClassForm: React.FC = () => {
     setScheduleItems(updateScheduleItems);
   }
 
+  function deleteItem(index : number){
+    const schedule  = scheduleItems.filter((item, i) => (i !== index))
+    setScheduleItems(schedule)
+  }
+
   return (
     <Styled.PageTeacherForm className="container">
       <PageHeader
@@ -155,6 +164,7 @@ const ClassForm: React.FC = () => {
             <Input
               name="cep"
               label="CEP de encontro do grupo"
+              autoComplete="off"
               value={cep}
               onChange={(e) => {
                 setCep(e.target.value);
@@ -188,7 +198,7 @@ const ClassForm: React.FC = () => {
 
             {scheduleItems.map((scheduleItem, index) => {
               return (
-                <Styled.ScheduleItem key={scheduleItem.week_day}>
+                <Styled.ScheduleItem key={index}>
                   <Select
                     name="week_day"
                     label="Dia da Semana"
@@ -224,6 +234,7 @@ const ClassForm: React.FC = () => {
                       setScheduleItemValue(index, "to", e.target.value)
                     }
                   />
+                 <MdDelete style={{alignSelf:'center', justifySelf:'center', width: '3rem'}} onClick={ () => {deleteItem(index)}}/>
                 </Styled.ScheduleItem>
               );
             })}

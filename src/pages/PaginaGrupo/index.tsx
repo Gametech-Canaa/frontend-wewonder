@@ -3,7 +3,7 @@ import MainPageHeader from "../../components/MainPageHeader";
 import { useHistory, useParams, Link, Redirect } from "react-router-dom";
 import { FaRegHeart, FaHeart, FaTrashAlt } from "react-icons/fa";
 import { IoIosPeople } from "react-icons/io";
-import { AiOutlineFileSearch } from "react-icons/ai";
+import { MdDelete } from "react-icons/md";
 import { toast } from "react-toastify";
 
 import * as Styled from "./styles";
@@ -17,6 +17,7 @@ export interface Grupo {
   bio: string;
   name: string;
   profile: string;
+  owner_id?:number;
 }
 
 export interface Relation {
@@ -97,6 +98,18 @@ const PaginaGrupo: React.FC = () => {
     loadModalities();
   }, []);
 
+  function verifyGroupOwner(): boolean{
+
+    const id = localStorage.getItem("id");
+
+    console.log(group.owner_id)
+    console.log(id)
+    if(group.owner_id === Number(id)){
+      return true
+    }
+    return false;
+  }
+
   async function loadAllGroups() {
     const response = await api.get(`classes/${id}`);
     let newGroup: Grupo = {
@@ -104,6 +117,7 @@ const PaginaGrupo: React.FC = () => {
       subject: response.data[0].subject,
       cost: response.data[0].cost,
       bio: response.data[0].bio,
+      owner_id: response.data[1].id,
       name: response.data[1].name,
       profile: response.data[1].profile,
     };
@@ -149,6 +163,14 @@ const PaginaGrupo: React.FC = () => {
     return "";
   }
 
+  function deleteAllGroup(){
+    api.delete(`classes/${group.id}`).then(() => {
+      toast.success("O grupo foi apagado com sucesso!")
+    }).catch(() => {
+      toast.error("Erro no cadastro");
+    })
+  }
+
   return (
     <Styled.PageTeacherList className="container">
       <MainPageHeader title="Estes são os seus grupos"></MainPageHeader>
@@ -171,6 +193,9 @@ const PaginaGrupo: React.FC = () => {
               <div>
                 <strong>{returnName(group.subject)}</strong>
                 <span> {group.name} </span>
+              </div>
+              <div>
+                {verifyGroupOwner() ? (<MdDelete onClick={() => {deleteAllGroup()}}/>) : (<div/>)}
               </div>
             </header>
 
