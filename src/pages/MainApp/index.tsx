@@ -44,8 +44,7 @@ interface Address {
 
 interface Modality {
   id: number;
-  attributes: { name: string };
-  name: string;
+  description: string;
 }
 const TeacherForm: React.FC = () => {
   let enderecos: Address[];
@@ -136,14 +135,10 @@ const TeacherForm: React.FC = () => {
 
   useEffect(() => {
     async function loadModalities() {
-      const url = axios.create({
-        baseURL: `https://sports.api.decathlon.com/`,
-      });
-
-      url.get(`sports`).then((response) => {
-        const valor = response.data.data.map((data: Modality) => ({
+      api.get(`modalities`).then((response) => {
+        const valor = response.data.map((data: Modality) => ({
           id: data.id,
-          name: data.attributes.name,
+          name: data.description,
         }));
         setModalities(valor);
       });
@@ -186,7 +181,7 @@ const TeacherForm: React.FC = () => {
   function returnName(mood: string): string {
     if (mood && modalities.length > 0) {
       const nome = modalities.filter((mod) => String(mod.id) === mood);
-      return nome[0].name;
+      return nome[0].description;
     }
     return "";
   }
@@ -202,7 +197,7 @@ const TeacherForm: React.FC = () => {
               filterBy="label"
               options={modalities.map((mod) => ({
                 value: String(mod.id),
-                label: mod.name,
+                label: mod.description,
               }))}
               name="subject"
               value={subject}

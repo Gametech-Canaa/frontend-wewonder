@@ -16,8 +16,7 @@ import { DropStyled } from "../../components/Dropdown";
 
 interface Modality {
   id: number;
-  attributes: { name: string };
-  name: string;
+  description: string;
 }
 
 const ClassForm: React.FC = () => {
@@ -46,14 +45,10 @@ const ClassForm: React.FC = () => {
 
   useEffect(() => {
     async function loadModalities() {
-      const url = axios.create({
-        baseURL: `https://sports.api.decathlon.com/`,
-      });
-
-      url.get(`sports`).then((response) => {
-        const valor = response.data.data.map((data: Modality) => ({
+      api.get(`modalities`).then((response) => {
+        const valor = response.data.map((data: Modality) => ({
           id: data.id,
-          name: data.attributes.name,
+          description: data.description,
         }));
         setModalities(valor);
       });
@@ -83,8 +78,7 @@ const ClassForm: React.FC = () => {
 
   function handleCreateClass(e: FormEvent) {
     e.preventDefault();
-    console.log(latitude);
-    console.log(longitude);
+
     api
       .post("classes", {
         subject: selectedModalite,
@@ -137,7 +131,7 @@ const ClassForm: React.FC = () => {
               filterBy="label"
               options={modalities.map((mod) => ({
                 value: String(mod.id),
-                label: mod.name,
+                label: mod.description,
               }))}
               value={selectedModalite}
               onChange={(e) => {
