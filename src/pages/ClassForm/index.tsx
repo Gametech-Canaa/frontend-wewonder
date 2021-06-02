@@ -13,7 +13,9 @@ import axios from "axios";
 import api from "../../services/api";
 import { toast } from "react-toastify";
 import { DropStyled } from "../../components/Dropdown";
-import { MdDelete } from "react-icons/md"
+import { Dialog } from "primereact/dialog";
+
+import { MdDelete } from "react-icons/md";
 import { string } from "yup/lib/locale";
 
 interface Modality {
@@ -30,6 +32,8 @@ const ClassForm: React.FC = () => {
 
   const history = useHistory();
   const [cep, setCep] = useState("");
+  const [modality, setModality] = useState("");
+
   const [limite, setLimite] = useState("");
   const [bio, setBio] = useState("");
   const [latitude, setLatitude] = useState();
@@ -40,10 +44,11 @@ const ClassForm: React.FC = () => {
   const [scheduleItems, setScheduleItems] = useState([
     { week_day: 0, from: "", to: "" },
   ]);
+  const [display, setDisplay] = useState(false);
 
   function addNewScheduleItem() {
     setScheduleItems([...scheduleItems, { week_day: 0, from: "", to: "" }]);
-    console.log(scheduleItems)
+    console.log(scheduleItems);
   }
 
   useEffect(() => {
@@ -65,7 +70,7 @@ const ClassForm: React.FC = () => {
         const url = axios.create({
           baseURL: `https://maps.googleapis.com/maps/api/`,
         });
-        
+
         url
           .get(
             `geocode/json?address=${cep}&key=AIzaSyCZKFKqajK5lnh1ykTr5rPxnpRgR66POQg`
@@ -73,8 +78,12 @@ const ClassForm: React.FC = () => {
           .then((response) => {
             setLatitude(response.data.results[0].geometry.location.lat);
             setLongitude(response.data.results[0].geometry.location.lng);
-            console.log(response.data.results[0].geometry.location.lat , response.data.results[0].geometry.location.lng)
-          }).catch(()=> toast.warn("CEP INVÁLIDO"));
+            console.log(
+              response.data.results[0].geometry.location.lat,
+              response.data.results[0].geometry.location.lng
+            );
+          })
+          .catch(() => toast.warn("CEP INVÁLIDO"));
       }
     }
     getGeoLocation();
@@ -103,6 +112,19 @@ const ClassForm: React.FC = () => {
       });
   }
 
+  async function handleAddModality() {
+    api
+      .post("modalities", {
+        description: modality,
+      })
+      .then(() => {
+        toast.success("Nova modalidade cadastrada com sucesso");
+      })
+      .catch(() => {
+        toast.error("Erro no cadastro");
+      });
+  }
+
   function setScheduleItemValue(
     position: number,
     field: string,
@@ -118,9 +140,9 @@ const ClassForm: React.FC = () => {
     setScheduleItems(updateScheduleItems);
   }
 
-  function deleteItem(index : number){
-    const schedule  = scheduleItems.filter((item, i) => (i !== index))
-    setScheduleItems(schedule)
+  function deleteItem(index: number) {
+    const schedule = scheduleItems.filter((item, i) => i !== index);
+    setScheduleItems(schedule);
   }
 
   return (
@@ -148,6 +170,43 @@ const ClassForm: React.FC = () => {
               }}
               placeholder="Selecione a modalidade"
             />
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                setDisplay(true);
+              }}
+            >
+              Nova modalidade
+            </button>
+
+            <Dialog
+              header="Nova modalidade"
+              visible={display}
+              style={{ width: "50vw" }}
+              onHide={() => {
+                setDisplay(false);
+              }}
+              footer={() => (
+                <div>
+                  <button
+                    onClick={(event) => {
+                      handleAddModality();
+                    }}
+                  >
+                    Criar
+                  </button>
+                </div>
+              )}
+            >
+              <Input
+                name="modalidade"
+                label="Descrição"
+                value={modality}
+                onChange={(e) => {
+                  setModality(e.target.value);
+                }}
+              />
+            </Dialog>
             {profile === "1" ? (
               <Input
                 name="cost"
@@ -234,7 +293,16 @@ const ClassForm: React.FC = () => {
                       setScheduleItemValue(index, "to", e.target.value)
                     }
                   />
-                 <MdDelete style={{alignSelf:'center', justifySelf:'center', width: '3rem'}} onClick={ () => {deleteItem(index)}}/>
+                  <MdDelete
+                    style={{
+                      alignSelf: "center",
+                      justifySelf: "center",
+                      width: "3rem",
+                    }}
+                    onClick={() => {
+                      deleteItem(index);
+                    }}
+                  />
                 </Styled.ScheduleItem>
               );
             })}
