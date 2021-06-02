@@ -116,11 +116,12 @@ const SignUp: React.FC = () => {
             />
             <Textarea
               name="bio"
-              label="Bio"
+              label="Biografia"
               value={bio}
               onChange={(e) => {
                 setBio(e.target.value);
               }}
+              placeholder="Descreva seus interesses"
             />
           </fieldset>
 
