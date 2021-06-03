@@ -180,7 +180,8 @@ const TeacherForm: React.FC = () => {
 
   function returnName(mood: string): string {
     if (mood && modalities.length > 0) {
-      const nome = modalities.filter((mod) => String(mod.id) === mood);
+      const nome = modalities.filter((mod) => String(mod.id) === String(mood));
+      console.log(mood);
       return nome[0].description;
     }
     return "";
