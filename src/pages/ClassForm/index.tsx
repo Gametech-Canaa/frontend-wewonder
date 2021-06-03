@@ -94,7 +94,7 @@ const ClassForm: React.FC = () => {
 
     api
       .post("classes", {
-        subject: selectedModalite,
+        subject: Number(selectedModalite),
         cost: Number(cost),
         schedule: scheduleItems,
         cep,
