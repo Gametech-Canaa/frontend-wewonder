@@ -30,9 +30,7 @@ export interface Relation {
 
 interface Modality {
   id: number;
-  attributes: { name: string; icon: string };
-  name: string;
-  icon: string;
+  description: string;
 }
 
 const TeacherList: React.FC = () => {
@@ -62,21 +60,17 @@ const TeacherList: React.FC = () => {
 
   useEffect(() => {
     async function loadModalities() {
-      const url = axios.create({
-        baseURL: `https://sports.api.decathlon.com/`,
-      });
-
-      url.get(`sports`).then((response) => {
-        const valor = response.data.data.map((data: Modality) => ({
+      api.get(`modalities`).then((response) => {
+        const valor = response.data.map((data: Modality) => ({
           id: data.id,
-          name: data.attributes.name,
-          icon: data.attributes.icon,
+          description: data.description,
         }));
         setModalities(valor);
       });
     }
     loadModalities();
   }, []);
+
 
   async function loadAllGroups() {
     setGroups([]);
@@ -114,22 +108,14 @@ const TeacherList: React.FC = () => {
     });
   }
 
-  function returnName(mood: string): string {
-    if (mood && modalities.length > 0) {
-      const nome = modalities.filter((mod) => String(mod.id) === mood);
-
-      return nome[0].name;
-    }
-    return "";
-  }
-
-  function returnIcon(mood: string): string {
-    if (mood && modalities.length > 0) {
-      const nome = modalities.filter((mod) => String(mod.id) === mood);
-      return nome[0].icon;
-    }
-    return "";
-  }
+   function returnName(mood: string): string {
+     if (mood && modalities.length > 0) {
+       const nome = modalities.filter((mod) => String(mod.id) === String(mood));
+       console.log(typeof(mood))
+       return nome[0].description;
+     }
+     return "";
+   }
 
   return (
     <Styled.PageTeacherList className="container">
@@ -146,11 +132,6 @@ const TeacherList: React.FC = () => {
                 profile={group.profile === "1" ? true : false}
               >
                 <header>
-                  {returnIcon(group.subject) ? (
-                    <img src={returnIcon(group.subject)} alt="modalities" />
-                  ) : (
-                    <IoIosPeople id="id" />
-                  )}
 
                   <div>
                     <strong>{returnName(group.subject)}</strong>
@@ -199,7 +180,7 @@ const TeacherList: React.FC = () => {
               </Styled.Article>
             );
           })
-        )}
+        )};
       </Styled.Main>
     </Styled.PageTeacherList>
   );
